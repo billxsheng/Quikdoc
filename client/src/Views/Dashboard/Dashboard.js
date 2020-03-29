@@ -130,7 +130,7 @@ export default function Dashboard() {
             <Grid item xs={12} md={12} lg={12}>
               <Paper className={fixedHeightPaper}>
                 <React.Fragment>
-                  <Title>Upcoming Appointments</Title>
+                  <Title>Upcoming Appointment</Title>
                   <Typography component="p" variant="h4" className={classes.depositContext}>
                     Stouffville Hospital
                   </Typography>

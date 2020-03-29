@@ -150,24 +150,6 @@ export default function Profile() {
                 </React.Fragment>
               </Paper>
             </Grid>
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>
-                <React.Fragment>
-                  <Title>Most Recent Appointment</Title>
-                  <Typography component="p" variant="h4">
-                    Stouffville Hospital
-                  </Typography>
-                  <Typography  className={classes.depositContext} color="textSecondary" >
-                    on 3:00 March 3, 2020
-                  </Typography>
-                  <div>
-                    <Button component={Link} to="/main/records/1" color="primary">
-                      View patient record
-                    </Button>
-                  </div>
-                </React.Fragment>
-              </Paper>
-            </Grid>
             <Grid item xs={12}>
               <Paper className={classes.paper}>
                 <React.Fragment>

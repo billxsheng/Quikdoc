@@ -1,17 +1,26 @@
-const mysql = require('mysql');
+const repository = require('../repository/cassandra.repository');
+const utils = require('../utils/string.utils');
 const constants = require('../constants/constants');
 
-const client = mysql.createConnection(constants.dbConfig);
-
-// Sample repository query functions
-module.exports.executeQuery = async () => {
-    client.connect();
-    query =  `SELECT * from clinics;`;
-    const results = await client.query(query).then((res) => {
-        return res.rows[0];
-    }).catch(() => Promise.reject(`Unable to execute query.`));
-    client.end();
-    return results;
+// Sample controller functions
+module.exports.getByLocation = async (location, sentiment) => {
+    let locationFormatted = utils.toTitleCase(location);
+    if(sentiment == null) {
+        return repository.getByLocation(locationFormatted).then((data) => {
+            return data;
+        }).catch((e) => {
+            return Promise.reject(e);
+        });
+    }
+    let sentimentFormatted = utils.toTitleCase(sentiment);
+    if(!constants.sentiments.includes(sentimentFormatted)) {
+        return Promise.reject(constants.errors.invalidSentiment);
+    }
+    return repository.getByLocationAndSentiment(locationFormatted, sentimentFormatted).then((data) => {
+        return data;
+    }).catch((e) => {
+        return Promise.reject(e);
+    });
 }
 
 module.exports.getAll = async () => {
@@ -81,4 +90,3 @@ module.exports.addForm = async() => {
 module.exports.registerUser = async() => {
     
 }
-
