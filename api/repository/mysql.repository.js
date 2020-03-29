@@ -22,7 +22,7 @@ module.exports.getAll = async () => {
     });
 }
 
-/** GET all upcoming appointments */
+/** GET all upcoming appointments for a specific patient */
 module.exports.getUpcomingAppointments = async() => {
 
 }
@@ -62,22 +62,22 @@ module.exports.getClinicForm = async() => {
     
 }
 
-/** POST cancel appointment */
+/** cancel appointment */
 module.exports.cancelAppointment = async() => {
     
 }
 
-/** POST book appointment */
+/** book appointment for a specific time */
 module.exports.bookAppointment = async() => {
     
 }
 
-/** POST add form */
+/** insert form data */
 module.exports.addForm = async() => {
     
 }
 
-/** POST patient registration data */
+/** insert patient registration data */
 module.exports.registerUser = async() => {
     
 }
