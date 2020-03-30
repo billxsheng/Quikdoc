@@ -29,7 +29,9 @@ app.get('/', (req, res, next) => {
 
 /** GET all upcoming appointments */
 app.get('/appointments', (req, res, next) => {
-    
+    controllers.getUpcomingAppointments(req.params.userId).then((rows) => {
+        res.status(200).send(rows)
+    });
 });
 
 /** GET suggested clinics */

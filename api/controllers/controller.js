@@ -1,4 +1,4 @@
-const repository = require('../repository/cassandra.repository');
+const repository = require('../repository/mysql.repository');
 const utils = require('../utils/string.utils');
 const constants = require('../constants/constants');
 
@@ -32,8 +32,10 @@ module.exports.getAll = async () => {
 }
 
 /** GET all upcoming appointments */
-module.exports.getUpcomingAppointments = async() => {
-
+module.exports.getUpcomingAppointments = async(userId) => {
+    return repository.getUpcomingAppointments(userId).then((rows) => {
+        return rows;
+    })
 }
 
 /** GET suggested clinics */

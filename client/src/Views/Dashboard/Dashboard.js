@@ -15,7 +15,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Title from './Components/Title';
 import Typography from '@material-ui/core/Typography';
 
-
 function createData(name, rating, type, waitTime, location, distance) {
   return { name, rating, type, waitTime, location, distance };
 }
@@ -119,6 +118,12 @@ const useStyles = makeStyles((theme) => ({
 export default function Dashboard() {
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
+  React.useEffect(() => {
+    fetch(`localhost:8080/api/appointments`).then((rows) => {
+      console.log(rows);
+    })
+  })
 
   return (
     <div className={classes.root}>

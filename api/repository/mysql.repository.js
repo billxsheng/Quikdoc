@@ -23,8 +23,14 @@ module.exports.getAll = async () => {
 }
 
 /** GET all upcoming appointments for a specific patient */
-module.exports.getUpcomingAppointments = async() => {
-
+module.exports.getUpcomingAppointments = async(userId) => {
+    client.connect();
+    query =  `SELECT * from appointments join patient where userId = ${userId};`;
+    const results = await client.query(query).then((res) => {
+        return res;
+    }).catch(() => Promise.reject(`Unable to execute query.`));
+    client.end();
+    return results;
 }
 
 /** GET suggested clinics */
