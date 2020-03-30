@@ -1,16 +1,16 @@
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const constants = require('../constants/constants');
 
-const client = mysql.createConnection(constants.dbConfig);
+const connection = mysql.createConnection(constants.dbConfig);
 
 // Sample repository query functions
 module.exports.executeQuery = async () => {
-    client.connect();
+    connection.connect();
     query =  `SELECT * from clinics;`;
-    const results = await client.query(query).then((res) => {
+    const results = await connection.query(query).then((res) => {
         return res.rows[0];
     }).catch(() => Promise.reject(`Unable to execute query.`));
-    client.end();
+    connection.end();
     return results;
 }
 
@@ -24,12 +24,12 @@ module.exports.getAll = async () => {
 
 /** GET all upcoming appointments for a specific patient */
 module.exports.getUpcomingAppointments = async(userId) => {
-    client.connect();
-    query =  `SELECT * from appointments join patient where userId = ${userId};`;
-    const results = await client.query(query).then((res) => {
+    connection.connect();
+    query =  ``;
+    const results = await connection.query(query).then((res) => {
         return res;
     }).catch(() => Promise.reject(`Unable to execute query.`));
-    client.end();
+    connection.end();
     return results;
 }
 
@@ -39,8 +39,15 @@ module.exports.getSuggestedClinics = async() => {
 }
 
 /** GET all clinics */
-module.exports.getClinics = async() => {
-    
+module.exports.getClinics = async () => {
+    connection.connect();
+    query =  `SELECT * from clinic;`;
+    return connection.promise().query(query).then((e) => {
+        return e[0]
+    })
+
+
+    // console.log(rows)
 }
 
 /** GET clinic by ID */

@@ -1,31 +1,31 @@
 const express = require('express');
 const controllers = require('../controllers/controller');
-
+const CircularJSON = require('flatted');
 const app = express.Router();
 
 // Sample routes
 
 /** Path params are used to specify a resource. Query params are used to filter the resource. */
 
-app.get('/:location', (req, res, next) => {
-    controllers.getByLocation(req.params.location, req.query.sentiment).then((data) => {
-        res.status(200).send(data);
-    }).catch((e) => {
-        res.status(400).send({
-            message: e
-        })
-    });
-});
+// app.get('/:location', (req, res, next) => {
+//     controllers.getByLocation(req.params.location, req.query.sentiment).then((data) => {
+//         res.status(200).send(data);
+//     }).catch((e) => {
+//         res.status(400).send({
+//             message: e
+//         })
+//     });
+// });
 
-app.get('/', (req, res, next) => {
-    controllers.getAll(req.params.location, req.query.sentiment).then((data) => {
-        res.status(200).send(data);
-    }).catch((e) => {
-        res.status(400).send({
-            message: e
-        })
-    });
-});
+// app.get('/', (req, res, next) => {
+//     controllers.getAll(req.params.location, req.query.sentiment).then((data) => {
+//         res.status(200).send(data);
+//     }).catch((e) => {
+//         res.status(400).send({
+//             message: e
+//         })
+//     });
+// });
 
 /** GET all upcoming appointments */
 app.get('/appointments', (req, res, next) => {
@@ -36,7 +36,11 @@ app.get('/appointments', (req, res, next) => {
 
 /** GET suggested clinics */
 app.get('/clinics', (req, res, next) => {
-    
+    controllers.getClinics().then((rows) => {
+        // console.log(rows)
+        const results = CircularJSON.stringify(rows);
+        res.status(200).send(results);
+    })
 });
 
 /** GET all clinics */

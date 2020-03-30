@@ -1,5 +1,5 @@
-import React from 'react';
-import clsx from 'clsx';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -28,10 +28,6 @@ const rows = [
 ];
 
 const drawerWidth = 240;
-
-function preventDefault(event) {
-  event.preventDefault();
-}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -121,6 +117,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Clinics() {
   const classes = useStyles();
+  const [clinics, setClinics] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:8080/api/clinics').then((rows) => {
+      console.log(rows);
+    })
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -158,7 +161,7 @@ export default function Clinics() {
                     </TableHead>
                     <TableBody>
                       {rows.map((row) => (
-                        <TableRow key={row.id}>
+                        <TableRow key={row.name}>
                           <TableCell>{row.name}</TableCell>
                           <TableCell>{row.rating}</TableCell>
                           <TableCell>{row.type}</TableCell>

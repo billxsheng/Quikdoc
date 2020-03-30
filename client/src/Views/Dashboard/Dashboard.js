@@ -119,12 +119,6 @@ export default function Dashboard() {
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
-  React.useEffect(() => {
-    fetch(`localhost:8080/api/appointments`).then((rows) => {
-      console.log(rows);
-    })
-  })
-
   return (
     <div className={classes.root}>
       <CssBaseline />

@@ -40,12 +40,12 @@ module.exports.getUpcomingAppointments = async(userId) => {
 
 /** GET suggested clinics */
 module.exports.getSuggestedClinics = async() => {
-    
+
 }
 
 /** GET all clinics */
 module.exports.getClinics = async() => {
-    
+    return repository.getClinics();
 }
 
 /** GET clinic by ID */

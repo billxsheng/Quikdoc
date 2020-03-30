@@ -30,10 +30,6 @@ const rows = [
 
 const drawerWidth = 240;
 
-function preventDefault(event) {
-  event.preventDefault();
-}
-
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',

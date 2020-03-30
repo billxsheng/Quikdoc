@@ -5,9 +5,8 @@ module.exports.errors = {
 }
 
 module.exports.dbConfig = {
-    // fill this out based on local setup
-    // host     : 'localhost',
-    // user     : 'me',
-    // password : 'secret',
-    // database : 'my_db'
+    host     : 'localhost',
+    user     : 'root',
+    password : 'Tmltmltml1@',
+    database : 'quikdoc'
 }
