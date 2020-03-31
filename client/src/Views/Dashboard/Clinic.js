@@ -10,12 +10,14 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Title from './Components/Title';
 import Typography from '@material-ui/core/Typography';
+// import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 
 const drawerWidth = 240;
-
-function preventDefault(event) {
-  event.preventDefault();
-}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -107,6 +109,20 @@ export default function Clinic(props) {
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const [clinic, setClinic] = useState([]);
+  const [formData, setFormData] = useState([]);
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    // if () {
+    //   document.getElementById("booking-form").reset();
+    //   let body = {
+
+    //   }
+    //   axios.post('http://localhost:8080/api/forms/add', body).then(() => {
+    //     console.log('successful')
+    //   })
+    // }
+  }
 
   React.useEffect(() => {
     axios.get(`http://localhost:8080/api/clinics/${props.match.params.clinicID}`).then((clinics) => {
@@ -129,7 +145,7 @@ export default function Clinic(props) {
                     {clinic.clinic_name}
                   </Typography>
                   <Typography color="textSecondary" >
-                    Type: {clinic.avg_wait_time ? "Walk-in Clinic": "Appointment Clinic"}
+                    Type: {clinic.avg_wait_time ? "Walk-in Clinic" : "Appointment Clinic"}
                   </Typography>
                   <Typography color="textSecondary" >
                     Rating (/5): {clinic.clinic_rating}
@@ -138,7 +154,7 @@ export default function Clinic(props) {
                     Distance (km): 5
                   </Typography>
                   <Typography color="textSecondary" >
-                    Wait Time: {clinic.avg_wait_time ? clinic.avg_wait_time + " Hours": clinic.avg_wait_days + " Days"}
+                    Wait Time: {clinic.avg_wait_time ? clinic.avg_wait_time + " Hours" : clinic.avg_wait_days + " Days"}
                   </Typography>
                 </React.Fragment>
               </Paper>
@@ -150,17 +166,53 @@ export default function Clinic(props) {
                   <Typography component="p" variant="h4">
                     Weekdays: {clinic.weekday_opening_time} - {clinic.weekday_closing_time}
                   </Typography>
-                  <Typography component="p" variant="h4"  className={classes.depositContext}>
+                  <Typography component="p" variant="h4" className={classes.depositContext}>
                     Weekends: {clinic.weekend_opening_time} - {clinic.weekend_closing_time}
                   </Typography>
                   <div>
                     <Button color="primary" component={Link} to={"/main/forms/clinic/" + clinic.clinic_id}>
-                        Get Clinic Form
-                    </Button>
-                    <Button color="primary" href="#" onClick={preventDefault}>
-                        Book Appointment
+                      Get Clinic Form
                     </Button>
                   </div>
+                </React.Fragment>
+              </Paper>
+            </Grid>
+            <Grid item xs={12} md={12} lg={12}>
+              <Paper className={fixedHeightPaper}>
+                <React.Fragment>
+                  <Title>Book Appointment</Title>
+                  <form id="booking-form" noValidate onSubmit={handleSubmit}>
+                    <MuiPickersUtilsProvider 
+                    // utils={DateFnsUtils}
+                    >
+                      <Grid container justify="space-around">
+                        <KeyboardDatePicker
+                          disableToolbar
+                          variant="inline"
+                          format="MM/dd/yyyy"
+                          margin="normal"
+                          id="date-picker-inline"
+                          label="Date picker inline"
+                          // value={selectedDate}
+                          // onChange={handleDateChange}
+                          KeyboardButtonProps={{
+                            'aria-label': 'change date',
+                          }}
+                        />
+                        <KeyboardTimePicker
+                          margin="normal"
+                          id="time-picker"
+                          label="Time picker"
+                          // value={selectedDate}
+                          // onChange={handleDateChange}
+                          KeyboardButtonProps={{
+                            'aria-label': 'change time',
+                          }}
+                        />
+                      </Grid>
+                    </MuiPickersUtilsProvider>
+                    <Button type="submit">Book Appointment</Button>
+                  </form>
                 </React.Fragment>
               </Paper>
             </Grid>
