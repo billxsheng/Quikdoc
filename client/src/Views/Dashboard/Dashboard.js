@@ -124,7 +124,7 @@ export default function Dashboard() {
         clinic: appointment.clinic_id
       }
       axios.post('http://localhost:8080/api/forms/add', body).then(() => {
-        console.log('successful')
+        alert(`Form of URL: ${formURL} successfully submitted!`)
       })
     }
   }

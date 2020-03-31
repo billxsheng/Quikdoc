@@ -112,15 +112,15 @@ module.exports.getPatientRecord = async(id) => {
 }
 
 /** POST cancel appointment */
-module.exports.cancelAppointment = async(id) => {
-    return repository.cancelAppointment(id).then((rows) => {
+module.exports.cancelAppointment = async(body) => {
+    return repository.cancelAppointment(body.id).then((rows) => {
         return rows;
     }) 
 }
 
 /** POST book appointment */
 module.exports.bookAppointment = async(body) => {
-    return repository.bookAppointment(body.c_id, body.healthCardNumber, body.appt_date, body.appt_time).then((rows) => {
+    return repository.bookAppointment(body.clinic, body.healthCardNumber, body.date, body.time).then((rows) => {
         return rows;
     })
 }

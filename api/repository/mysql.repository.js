@@ -125,7 +125,7 @@ module.exports.getPatientRecord = async(id) => {
 
 /** cancel appointment */
 module.exports.cancelAppointment = async(id) => {
-    connection.connectTimeout();
+    connection.connect();
     query =  `delete from appointment where appointment_id = "${id}";`;
     return connection.promise().query(query).then((e) => {
         return e;
@@ -135,8 +135,8 @@ module.exports.cancelAppointment = async(id) => {
 /** book appointment for a specific time */
 module.exports.bookAppointment = async(c_id, hcn, appt_date, appt_time) => {
     var gen_appointment_id = Math.floor(Math.random() * 1000000000);
-    connection.connectTimeout();
-    query = `insert into appointment(\`appointment_id\`,\`FK_clinic_id\`,\`FK_health_card_no\`,\`appointment_date\`,\`appointment_time\`) values (${gen_appointment_id}, "${c_id}", "${hcn}","${appt_date}","${appt_time}");`;
+    connection.connect();
+    query = `insert into appointment(\`appointment_id\`,\`FK_clinic_id\`,\`FK_health_card_no\`,\`appointment_date\`,\`appointment_time\`) values (${gen_appointment_id}, ${c_id}, 84975214, "${appt_date}", "${appt_time}");`;
     return connection.promise().query(query).then((e) => {
         return e;
     })

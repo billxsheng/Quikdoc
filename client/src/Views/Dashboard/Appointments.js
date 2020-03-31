@@ -5,7 +5,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -109,6 +108,21 @@ export default function Appointments() {
   const [formData, setFormData] = useState([]);
   const [formURL, setFormURL] = useState("");
 
+  const onCancel = (evt, id) => {
+    // eslint-disable-next-line no-restricted-globals
+    if(confirm("Are you sure you want to cancel the appointment?")) {
+      evt.preventDefault();
+      let body = {
+        id
+      }
+      axios.post('http://localhost:8080/api/appointment/cancel', body).then(() => {
+        window.location.reload();
+      })
+    } else {
+      return;
+    }
+  }
+
   const handleSubmit = (evt) => {
     evt.preventDefault();
     if (formURL) {
@@ -120,7 +134,7 @@ export default function Appointments() {
         clinic: formData.clinic_id
       }
       axios.post('http://localhost:8080/api/forms/add', body).then(() => {
-        console.log('successful')
+        alert(`Form of URL: ${formURL} successfully submitted!`)
       })
     }
   }
@@ -166,14 +180,17 @@ export default function Appointments() {
                                 label="Form URL"
                                 autoFocus
                                 onChange={(e) => {
-                                  console.log(row)
                                   setFormURL(e.target.value)
                                   setFormData(row)
                                 }}
                               />
                               <Button type="submit">Add Form</Button>
                             </form></TableCell>
-                          <TableCell><Button component={Link} to="/main/records/1">Cancel Appointment</Button></TableCell>
+                          <TableCell>
+                            <Button onClick={(e) => {
+                              onCancel(e, row.appointment_id);
+                            }}>Cancel Appointment</Button>
+                          </TableCell>
                         </TableRow>
                       ))}
                     </TableBody>

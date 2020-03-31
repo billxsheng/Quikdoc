@@ -13,8 +13,6 @@ import Typography from '@material-ui/core/Typography';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-  KeyboardDatePicker,
   DateTimePicker,
 } from '@material-ui/pickers';
 
@@ -110,12 +108,34 @@ export default function Clinic(props) {
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const [clinic, setClinic] = useState([]);
-  const [selectedDate, setSelectedDate] = React.useState(new Date());
-  const [selectedTime, setSelectedTime] = React.useState(new Date().getTime());
+  const [selectedDatetime, setSelectedDatetime] = React.useState();
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    console.log(selectedDate, selectedTime)
+    let datetime = new Date(selectedDatetime)
+    let date = datetime.getFullYear() + '-' +
+    ('00' + (datetime.getMonth()+1)).slice(-2) + '-' +
+    ('00' + datetime.getDate()).slice(-2)
+
+    let time = ('00' + datetime.getHours()).slice(-2) + ':' + 
+    ('00' + datetime.getMinutes()).slice(-2) + ':' + 
+    ('00');
+    
+    // eslint-disable-next-line no-restricted-globals
+    if (selectedDatetime && confirm(`Are you sure you want to book an appointment on ${date} at ${time}!`)) {
+      document.getElementById("booking-form").reset();
+      let body = {
+        clinic: clinic.clinic_id,
+        date, 
+        time
+      }
+      axios.post('http://localhost:8080/api/appointment/book', body).then(() => {
+        alert(`Appointment booked for ${date} at ${time}!`)
+      })
+    } else {
+      return;
+    }
+
   }
 
   React.useEffect(() => {
@@ -179,10 +199,10 @@ export default function Clinic(props) {
                     <MuiPickersUtilsProvider utils={DateFnsUtils} >
                       <Grid container>
                         <DateTimePicker
-                          value={selectedDate}
+                          value={selectedDatetime || null}
                           disablePast
-                          onChange={(date) => {
-                            setSelectedDate(date)
+                          onChange={(datetime) => {
+                            setSelectedDatetime(datetime)
                           }}
                           label="Appointment Datetime"
                           showTodayButton

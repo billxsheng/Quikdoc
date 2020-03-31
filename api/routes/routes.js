@@ -95,7 +95,7 @@ app.post('/appointment/cancel', (req, res, next) => {
 
 /** POST book appointment */
 app.post('/appointment/book', (req, res, next) => {
-    controllers.getClinicByID(req.body).then((rows) => {
+    controllers.bookAppointment(req.body).then((rows) => {
         res.status(200).send(rows);
     })
 });
