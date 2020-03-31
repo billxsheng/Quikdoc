@@ -41,13 +41,6 @@ module.exports.getWalkInClinics = async() => {
     return repository.getWalkInClinics();
 }
 
-/** GET all upcoming appointments */
-module.exports.getUpcomingAppointments = async(userId) => {
-    return repository.getUpcomingAppointments(userId).then((rows) => {
-        return rows;
-    })
-}
-
 /** GET clinic by ID */
 module.exports.getClinicByID = async(id) => {
     return repository.getClinicByID(id).then((rows) => {
@@ -55,13 +48,22 @@ module.exports.getClinicByID = async(id) => {
     })
 }
 
-/** GET patient record by clinic ID and patient health card number*/
-module.exports.getPatientRecord = async() => {
-    
+/** GET all upcoming appointments */
+module.exports.getUpcomingAppointments = async(userId) => {
+    return repository.getUpcomingAppointments(userId).then((rows) => {
+        return rows;
+    })
 }
 
 /** GET patient info by health card number*/
 module.exports.getPatient = async() => {
+    return repository.getPatient().then((rows) => {
+        return rows;
+    })
+}
+
+/** GET patient record by clinic ID and patient health card number*/
+module.exports.getPatientRecord = async() => {
     
 }
 

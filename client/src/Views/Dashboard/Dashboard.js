@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
@@ -118,6 +119,13 @@ const useStyles = makeStyles((theme) => ({
 export default function Dashboard() {
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  const [appointment, setAppointment] = useState([]);
+
+  React.useEffect(() => {
+    axios.get(`http://localhost:8080/api/appointments`).then((appointment) => {
+      setAppointment(appointment.data[0]);
+    })
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -131,13 +139,13 @@ export default function Dashboard() {
                 <React.Fragment>
                   <Title>Upcoming Appointment</Title>
                   <Typography component="p" variant="h4" className={classes.depositContext}>
-                    Stouffville Hospital
+                    {appointment.clinic_name}
                   </Typography>
                   <Typography color="textSecondary">
-                    at 3:00 PM 15 March, 2019
+                    at {appointment.appointment_time} | {appointment.appointment_date}
                   </Typography>
                   <Typography color="textSecondary">
-                    Markham, Ontario
+                    {appointment.clinic_address}
                   </Typography>
                 </React.Fragment>
               </Paper>

@@ -30,14 +30,16 @@ app.get('/appointments', (req, res, next) => {
     });
 });
 
-/** GET patient record by clinic ID and patient health card number*/
-app.get('/record', (req, res, next) => {
-    
-});
-
 /** GET patient info by health card number*/
 app.get('/patient', (req, res, next) => {
-    
+    controllers.getPatient().then((rows) => {
+        res.status(200).send(rows)
+    });
+});
+
+/** GET patient record by clinic ID and patient health card number*/
+app.get('/record', (req, res, next) => {
+
 });
 
 /** GET patient form by health card number and clinic ID*/

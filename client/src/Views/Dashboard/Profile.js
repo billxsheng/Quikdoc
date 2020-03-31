@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,19 +15,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Title from './Components/Title';
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
-
-
-function createData(name, rating, type, waitTime, location) {
-  return { name, rating, type, waitTime, location };
-}
-
-const rows = [
-  createData('Stoufville Hospital', '1/5', 'Appointment', '4 days', 'Markham'),
-  createData('Sun Hospital', '3/5', 'Appointment', '6 days', 'Richmond Hill'),
-  createData('Tim Hospital', '4/5', 'Walk-in', '1 hour', 'Waterloo'),
-  createData('Chris Hospital', '5/5', 'Walk-in', '30 minutes', 'Thornhill'),
-  createData('Owl Hospital', '3.5/5', 'Walk-in', '1.5 hours', 'Ottawa'),
-];
 
 const drawerWidth = 240;
 
@@ -119,6 +107,13 @@ const useStyles = makeStyles((theme) => ({
 export default function Profile() {
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  const [patient, setPatient] = useState([]);
+
+  React.useEffect(() => {
+    axios.get(`http://localhost:8080/api/patient/`).then((patient) => {
+      setPatient(patient.data[0]);
+    })
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -132,16 +127,13 @@ export default function Profile() {
                 <React.Fragment>
                   <Title>Profile</Title>
                   <Typography component="p" variant="h4" className={classes.depositContext}>
-                    Bill Sheng
+                    {patient.first_name} {patient.last_name}
                   </Typography>
                   <Typography color="textSecondary" >
-                    Age: 20
+                    Email: {patient.email}
                   </Typography>
                   <Typography color="textSecondary" >
-                    Blood Type: B+
-                  </Typography>
-                  <Typography color="textSecondary" >
-                    Age: 20
+                    Blood Type: {patient.blood_type}
                   </Typography>
                 </React.Fragment>
               </Paper>
@@ -158,12 +150,12 @@ export default function Profile() {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {rows.map((row) => (
+                      {/* {patient.map((row) => (
                         <TableRow key={row.id}>
                           <TableCell>{row.name}</TableCell>
                           <TableCell><Button component={Link} to="/main/records/1">View Record</Button></TableCell>
                         </TableRow>
-                      ))}
+                      ))} */}
                     </TableBody>
                   </Table>
                 </React.Fragment>

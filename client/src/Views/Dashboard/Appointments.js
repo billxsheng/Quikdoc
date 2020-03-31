@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
@@ -114,6 +115,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Appointments() {
   const classes = useStyles();
+  const [appointments, setAppointments] = useState([]);
+
+  React.useEffect(() => {
+    axios.get(`http://localhost:8080/api/appointments`).then((clinics) => {
+      setAppointments(clinics.data);
+    })
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -132,18 +140,16 @@ export default function Appointments() {
                         <TableCell>Clinic</TableCell>
                         <TableCell>Date</TableCell>
                         <TableCell>Time</TableCell>
-                        <TableCell>Type</TableCell>
                         <TableCell></TableCell>
                         <TableCell></TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {rows.map((row) => (
+                      {appointments.map((row) => (
                         <TableRow key={row.id}>
-                          <TableCell>{row.name}</TableCell>
-                          <TableCell>{row.date}</TableCell>
-                          <TableCell>{row.time}</TableCell>
-                          <TableCell>{row.type}</TableCell>
+                          <TableCell>{row.clinic_name}</TableCell>
+                          <TableCell>{row.appointment_date}</TableCell>
+                          <TableCell>{row.appointment_time}</TableCell>
                           <TableCell><Button component={Link} to="/main/records/1">View Record</Button></TableCell>
                           <TableCell><Button component={Link} to="/main/records/1">Cancel Appointment</Button></TableCell>
                         </TableRow>
