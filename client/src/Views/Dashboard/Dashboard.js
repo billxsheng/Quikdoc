@@ -15,18 +15,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './Components/Title';
 import Typography from '@material-ui/core/Typography';
-
-function createData(name, rating, type, waitTime, location, distance) {
-  return { name, rating, type, waitTime, location, distance };
-}
-
-const rows = [
-  createData('Stoufville Hospital', '1/5', 'Appointment', '4 days', 'Markham', 3),
-  createData('Sun Hospital', '3/5', 'Appointment', '6 days', 'Richmond Hill', 5),
-  createData('Tim Hospital', '4/5', 'Walk-in', '1 hour', 'Waterloo', 1),
-  createData('Chris Hospital', '5/5', 'Walk-in', '30 minutes', 'Thornhill', 10),
-  createData('Owl Hospital', '3.5/5', 'Walk-in', '1.5 hours', 'Ottawa', 9),
-];
+import { TextField } from '@material-ui/core';
 
 const drawerWidth = 240;
 
@@ -122,7 +111,23 @@ export default function Dashboard() {
   const [appointment, setAppointment] = useState([]);
   const [wClinic, setWClinic] = useState([]);
   const [aClinic, setAClinic] = useState([]);
-
+  const [formURL, setFormURL] = useState("");
+  console.log(appointment)
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    if (formURL) {
+      document.getElementById("form-form").reset();
+      let body = {
+        fid: appointment.clinic_id + "-" + appointment.health_card_no,
+        formURL,
+        hcn: appointment.health_card_no,
+        clinic: appointment.clinic_id
+      }
+      axios.post('http://localhost:8080/api/forms/add', body).then(() => {
+        console.log('successful')
+      })
+    }
+  }
 
   React.useEffect(() => {
     axios.get(`http://localhost:8080/api/appointments`).then((appointment) => {
@@ -156,6 +161,18 @@ export default function Dashboard() {
                   <Typography color="textSecondary">
                     {appointment.clinic_address}
                   </Typography>
+                  <div className={classes.seeMore}>
+                    <form id="form-form" noValidate onSubmit={handleSubmit}>
+                      <TextField
+                        autoComplete="fname"
+                        name="formURL"
+                        label="Form URL"
+                        autoFocus
+                        onChange={e => setFormURL(e.target.value)}
+                      />
+                      <Button type="submit">Add Form</Button>
+                    </form>
+                  </div>
                 </React.Fragment>
               </Paper>
             </Grid>

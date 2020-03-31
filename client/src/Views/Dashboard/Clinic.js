@@ -155,10 +155,7 @@ export default function Clinic(props) {
                   </Typography>
                   <div>
                     <Button color="primary" component={Link} to={"/main/forms/clinic/" + clinic.clinic_id}>
-                        Get Form
-                    </Button>
-                    <Button color="primary" href="#" onClick={preventDefault}>
-                        Add Form
+                        Get Clinic Form
                     </Button>
                     <Button color="primary" href="#" onClick={preventDefault}>
                         Book Appointment

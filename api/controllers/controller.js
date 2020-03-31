@@ -83,6 +83,20 @@ module.exports.getAllPatientForms = async() => {
     }) 
 }
 
+/** POST add form */
+module.exports.addForm = async(body) => {
+    return repository.addForm(body.fid, body.hcn, body.clinic, body.formURL).then((rows) => {
+        return rows;
+    }) 
+}
+
+/** POST patient registration data */
+module.exports.registerUser = async(body) => {
+    return repository.registerUser(body.fn, body.ln, body.password, body.healthCardNumber, body.bloodType, body.email).then((rows) => {
+        return rows;
+    }) 
+}
+
 /** GET patient record by clinic ID and patient health card number*/
 module.exports.getPatientRecord = async() => {
     
@@ -95,15 +109,5 @@ module.exports.cancelAppointment = async() => {
 
 /** POST book appointment */
 module.exports.bookAppointment = async() => {
-    
-}
-
-/** POST add form */
-module.exports.addForm = async() => {
-    
-}
-
-/** POST patient registration data */
-module.exports.registerUser = async() => {
     
 }

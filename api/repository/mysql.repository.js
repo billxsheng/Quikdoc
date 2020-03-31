@@ -59,15 +59,6 @@ module.exports.getPatient = async() => {
     })
 }
 
-/** GET patient record by clinic ID and patient health card number*/
-module.exports.getPatientRecord = async() => {
-    connection.connect();
-    query =  `select * from patient p inner join appointment a inner join clinic c on p.health_card_no = a.FK_health_card_no and c.clinic_id = a.FK_clinic_id where p.health_card_no = 84975214 order by a.appointment_date, a.appointment_time;`;
-    return connection.promise().query(query).then((e) => {
-        return e[0]
-    })
-}
-
 /** GET clinic form by clinic ID*/
 module.exports.getClinicForm = async(id) => {
     connection.connect();
@@ -96,6 +87,29 @@ module.exports.getAllPatientForms = async() => {
     })
 }
 
+/** insert form data */
+module.exports.addForm = async(fid, hcn, clinic, url) => {
+    connection.connect();
+    query =  `insert into patient_form(\`patient_form_id\`,\`FK_clinic_id\`,\`FK_health_card_no\`,\`patient_form_URL\`,\`patient_form_upload_datetime\`) values ("${fid}", ${clinic}, "${hcn}", "${url}", NOW());`;
+    return connection.promise().query(query).then((e) => {
+        return e;
+    })
+}
+
+/** insert patient registration data */
+module.exports.registerUser = async(fn, ln, pw, hcn, bt, email) => {
+    connection.connect();
+    query =  `insert into patient(\`health_card_no\`,\`first_name\`,\`last_name\`,\`password\`,\`blood_type\`,\`email\`) values (${hcn}, "${fn}", "${ln}", "${pw}", "${bt}", "${email}");`;
+    return connection.promise().query(query).then((e) => {
+        return e;
+    })
+}
+
+/** GET patient record by clinic ID and patient health card number*/
+module.exports.getPatientRecord = async() => {
+
+}
+
 /** cancel appointment */
 module.exports.cancelAppointment = async() => {
     
@@ -103,16 +117,6 @@ module.exports.cancelAppointment = async() => {
 
 /** book appointment for a specific time */
 module.exports.bookAppointment = async() => {
-    
-}
-
-/** insert form data */
-module.exports.addForm = async() => {
-    
-}
-
-/** insert patient registration data */
-module.exports.registerUser = async() => {
     
 }
 

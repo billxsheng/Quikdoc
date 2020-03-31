@@ -58,6 +58,20 @@ app.get('/forms', (req, res, next) => {
     }) 
 });
 
+/** POST add form */
+app.post('/forms/add', (req, res, next) => {
+    controllers.addForm(req.body).then((rows) => {
+        res.status(200).send(rows);
+    }) 
+});
+
+/** POST patient registration data */
+app.post('/register', (req, res, next) => {
+    controllers.registerUser(req.body).then((rows) => {
+        res.status(200).send(rows);
+    }) 
+});
+
 /** GET patient record by clinic ID and patient health card number*/
 app.get('/record', (req, res, next) => {
 
@@ -70,16 +84,6 @@ app.post('/appointment/cancel', (req, res, next) => {
 
 /** POST book appointment */
 app.post('/appointment/book', (req, res, next) => {
-    
-});
-
-/** POST add form */
-app.post('/forms/add', (req, res, next) => {
-    
-});
-
-/** POST patient registration data */
-app.post('/register', (req, res, next) => {
     
 });
 

@@ -13,17 +13,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './Components/Title';
-
-
-function createData(name, date, time, type) {
-  return { name, date, time, type };
-}
-
-const rows = [
-  createData('Stoufville Hospital', 'May 4, 2020', '3:00 PM', 'Walk-in'),
-  createData('Sun Hospital', 'May 4, 2020', '2:00 PM', 'Appointment'),
-  createData('Tim Hospital', 'May 4, 2020', '11:00 AM', 'Appointment'),
-];
+import { TextField } from '@material-ui/core';
 
 const drawerWidth = 240;
 
@@ -116,6 +106,24 @@ const useStyles = makeStyles((theme) => ({
 export default function Appointments() {
   const classes = useStyles();
   const [appointments, setAppointments] = useState([]);
+  const [formData, setFormData] = useState([]);
+  const [formURL, setFormURL] = useState("");
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    if (formURL) {
+      document.getElementById("form-form").reset();
+      let body = {
+        fid: formData.clinic_id + "-" + formData.health_card_no,
+        formURL,
+        hcn: formData.health_card_no,
+        clinic: formData.clinic_id
+      }
+      axios.post('http://localhost:8080/api/forms/add', body).then(() => {
+        console.log('successful')
+      })
+    }
+  }
 
   React.useEffect(() => {
     axios.get(`http://localhost:8080/api/appointments`).then((clinics) => {
@@ -150,7 +158,21 @@ export default function Appointments() {
                           <TableCell>{row.clinic_name}</TableCell>
                           <TableCell>{row.appointment_date}</TableCell>
                           <TableCell>{row.appointment_time}</TableCell>
-                          <TableCell><Button component={Link} to="/main/records/1">View Record</Button></TableCell>
+                          <TableCell>
+                            <form id="form-form" noValidate onSubmit={handleSubmit}>
+                              <TextField
+                                autoComplete="fname"
+                                name="formURL"
+                                label="Form URL"
+                                autoFocus
+                                onChange={(e) => {
+                                  console.log(row)
+                                  setFormURL(e.target.value)
+                                  setFormData(row)
+                                }}
+                              />
+                              <Button type="submit">Add Form</Button>
+                            </form></TableCell>
                           <TableCell><Button component={Link} to="/main/records/1">Cancel Appointment</Button></TableCell>
                         </TableRow>
                       ))}
