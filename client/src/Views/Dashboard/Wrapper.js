@@ -22,8 +22,9 @@ import Profile from './Profile';
 import Forms from './Forms';
 import { Link } from 'react-router-dom';
 import Clinic from './Clinic';
-import Form from './Form';
+import ClinicForm from './ClinicForm';
 import Record from './Record';
+import PatientForm from './PatientForm';
 
 
 const drawerWidth = 240;
@@ -110,7 +111,8 @@ const useStyles = makeStyles((theme) => ({
 export default function Wrapper(props) {
   let routes = (
     <Switch>
-      <Route exact path="/main/forms/:formID" component={Form} />
+      <Route exact path="/main/forms/clinic/:formID" component={ClinicForm} />
+      <Route exact path="/main/forms/patient/:formID" component={PatientForm} />
       <Route exact path="/main/clinics/:clinicID" component={Clinic} />
       <Route exact path="/main/records/:recordID" component={Record} />
       <Route exact path="/main/forms" component={Forms} />

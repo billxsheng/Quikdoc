@@ -142,7 +142,7 @@ export default function Clinics() {
                     <TableHead>
                       <TableRow>
                         <TableCell>Name</TableCell>
-                        <TableCell>Rating</TableCell>
+                        <TableCell>Rating (/5)</TableCell>
                         <TableCell>Type</TableCell>
                         <TableCell>Wait Time</TableCell>
                         <TableCell>Location</TableCell>

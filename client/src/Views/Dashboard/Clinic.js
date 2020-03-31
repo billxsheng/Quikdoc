@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import clsx from 'clsx';
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
@@ -9,19 +10,6 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Title from './Components/Title';
 import Typography from '@material-ui/core/Typography';
-
-
-function createData(name, rating, type, waitTime, location) {
-  return { name, rating, type, waitTime, location };
-}
-
-const rows = [
-  createData('Stoufville Hospital', '1/5', 'Appointment', '4 days', 'Markham'),
-  createData('Sun Hospital', '3/5', 'Appointment', '6 days', 'Richmond Hill'),
-  createData('Tim Hospital', '4/5', 'Walk-in', '1 hour', 'Waterloo'),
-  createData('Chris Hospital', '5/5', 'Walk-in', '30 minutes', 'Thornhill'),
-  createData('Owl Hospital', '3.5/5', 'Walk-in', '1.5 hours', 'Ottawa'),
-];
 
 const drawerWidth = 240;
 
@@ -144,7 +132,7 @@ export default function Clinic(props) {
                     Type: {clinic.avg_wait_time ? "Walk-in Clinic": "Appointment Clinic"}
                   </Typography>
                   <Typography color="textSecondary" >
-                    Rating: {clinic.clinic_rating}
+                    Rating (/5): {clinic.clinic_rating}
                   </Typography>
                   <Typography color="textSecondary" >
                     Distance (km): 5
@@ -166,7 +154,7 @@ export default function Clinic(props) {
                     Weekends: {clinic.weekend_opening_time} - {clinic.weekend_closing_time}
                   </Typography>
                   <div>
-                    <Button color="primary" href="#" onClick={preventDefault}>
+                    <Button color="primary" component={Link} to={"/main/forms/clinic/" + clinic.clinic_id}>
                         Get Form
                     </Button>
                     <Button color="primary" href="#" onClick={preventDefault}>

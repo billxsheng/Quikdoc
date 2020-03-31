@@ -1,5 +1,6 @@
-import React from 'react';
 import clsx from 'clsx';
+import React, { useState } from 'react';
+import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
@@ -7,19 +8,6 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Title from './Components/Title';
 import Typography from '@material-ui/core/Typography';
-
-
-function createData(name, rating, type, waitTime, location) {
-  return { name, rating, type, waitTime, location };
-}
-
-const rows = [
-  createData('Stoufville Hospital', '1/5', 'Appointment', '4 days', 'Markham'),
-  createData('Sun Hospital', '3/5', 'Appointment', '6 days', 'Richmond Hill'),
-  createData('Tim Hospital', '4/5', 'Walk-in', '1 hour', 'Waterloo'),
-  createData('Chris Hospital', '5/5', 'Walk-in', '30 minutes', 'Thornhill'),
-  createData('Owl Hospital', '3.5/5', 'Walk-in', '1.5 hours', 'Ottawa'),
-];
 
 const drawerWidth = 240;
 
@@ -109,9 +97,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Form() {
+export default function ClinicForm(props) {
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  const [form, setForm] = useState([]);
+
+  React.useEffect(() => {
+    axios.get(`http://localhost:8080/api/forms/clinic/${props.match.params.formID}`).then((form) => {
+      setForm(form.data[0]);
+    })
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -123,12 +118,12 @@ export default function Form() {
             <Grid item xs={12} md={12} lg={12}>
               <Paper className={fixedHeightPaper}>
                 <React.Fragment>
-                  <Title>Form</Title>
+                  <Title>Clinic Form</Title>
                   <Typography component="p" variant="h4" className={classes.depositContext}>
-                    Stouffville Hospital
+                    {form.clinic_name}
                   </Typography>
                   <Typography color="textSecondary" >
-                    Form URL: 'https://google.com'
+                    Form URL: {form.clinic_form_URL}
                   </Typography>
                 </React.Fragment>
               </Paper>

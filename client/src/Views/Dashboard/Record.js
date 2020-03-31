@@ -9,19 +9,6 @@ import Button from '@material-ui/core/Button';
 import Title from './Components/Title';
 import Typography from '@material-ui/core/Typography';
 
-
-function createData(name, rating, type, waitTime, location) {
-  return { name, rating, type, waitTime, location };
-}
-
-const rows = [
-  createData('Stoufville Hospital', '1/5', 'Appointment', '4 days', 'Markham'),
-  createData('Sun Hospital', '3/5', 'Appointment', '6 days', 'Richmond Hill'),
-  createData('Tim Hospital', '4/5', 'Walk-in', '1 hour', 'Waterloo'),
-  createData('Chris Hospital', '5/5', 'Walk-in', '30 minutes', 'Thornhill'),
-  createData('Owl Hospital', '3.5/5', 'Walk-in', '1.5 hours', 'Ottawa'),
-];
-
 const drawerWidth = 240;
 
 function preventDefault(event) {

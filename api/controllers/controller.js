@@ -62,18 +62,29 @@ module.exports.getPatient = async() => {
     })
 }
 
-/** GET patient record by clinic ID and patient health card number*/
-module.exports.getPatientRecord = async() => {
-    
+/** GET clinic form by clinic ID*/
+module.exports.getClinicForm = async(id) => {
+    return repository.getClinicForm(id).then((rows) => {
+        return rows;
+    }) 
 }
 
 /** GET patient form by health card number and clinic ID*/
-module.exports.getPatientForm = async() => {
-    
+module.exports.getPatientForm = async(id) => {
+    return repository.getPatientForm(id).then((rows) => {
+        return rows;
+    }) 
 }
 
-/** GET clinic form by clinic ID*/
-module.exports.getClinicForm = async() => {
+/** GET all forms for patient by health card number*/
+module.exports.getAllPatientForms = async() => {
+    return repository.getAllPatientForms().then((rows) => {
+        return rows;
+    }) 
+}
+
+/** GET patient record by clinic ID and patient health card number*/
+module.exports.getPatientRecord = async() => {
     
 }
 

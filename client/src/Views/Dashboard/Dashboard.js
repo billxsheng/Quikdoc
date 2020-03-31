@@ -120,10 +120,19 @@ export default function Dashboard() {
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const [appointment, setAppointment] = useState([]);
+  const [wClinic, setWClinic] = useState([]);
+  const [aClinic, setAClinic] = useState([]);
+
 
   React.useEffect(() => {
     axios.get(`http://localhost:8080/api/appointments`).then((appointment) => {
       setAppointment(appointment.data[0]);
+    })
+    axios.get('http://localhost:8080/api/appointment_clinics').then((clinics) => {
+      setAClinic(clinics.data.slice(0, 3));
+    })
+    axios.get('http://localhost:8080/api/walkin_clinics').then((clinics) => {
+      setWClinic(clinics.data.slice(0, 3));
     })
   }, []);
 
@@ -158,7 +167,7 @@ export default function Dashboard() {
                     <TableHead>
                       <TableRow>
                         <TableCell>Name</TableCell>
-                        <TableCell>Rating</TableCell>
+                        <TableCell>Rating (/5)</TableCell>
                         <TableCell>Type</TableCell>
                         <TableCell>Wait Time</TableCell>
                         <TableCell>Location</TableCell>
@@ -167,21 +176,32 @@ export default function Dashboard() {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {rows.map((row) => (
-                        <TableRow key={row.id}>
-                          <TableCell>{row.name}</TableCell>
-                          <TableCell>{row.rating}</TableCell>
-                          <TableCell>{row.type}</TableCell>
-                          <TableCell>{row.waitTime}</TableCell>
-                          <TableCell>{row.location}</TableCell>
-                          <TableCell>{row.distance}</TableCell>
-                          <TableCell><Button component={Link} to="/main/clinics/1" >More Info</Button></TableCell>
+                      {wClinic.map((row) => (
+                        <TableRow key={row.name}>
+                          <TableCell>{row.clinic_name}</TableCell>
+                          <TableCell>{row.clinic_rating}</TableCell>
+                          <TableCell>Walk-in Clinic</TableCell>
+                          <TableCell>{row.avg_wait_time + " Hours"}</TableCell>
+                          <TableCell>{row.clinic_address}</TableCell>
+                          <TableCell>{Math.floor(Math.random() * 9 + 1)}</TableCell>
+                          <TableCell><Button component={Link} to={'/main/clinics/' + row.clinic_id}>More Info</Button></TableCell>
+                        </TableRow>
+                      ))}
+                      {aClinic.map((row) => (
+                        <TableRow key={row.name}>
+                          <TableCell>{row.clinic_name}</TableCell>
+                          <TableCell>{row.clinic_rating}</TableCell>
+                          <TableCell>Appointment Clinic</TableCell>
+                          <TableCell>{row.avg_wait_days + " Days"}</TableCell>
+                          <TableCell>{row.clinic_address}</TableCell>
+                          <TableCell>{Math.floor(Math.random() * 9 + 1)}</TableCell>
+                          <TableCell><Button component={Link} to={'/main/clinics/' + row.clinic_id}>More Info</Button></TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
                   </Table>
                   <div className={classes.seeMore}>
-                    <Button component = {Link} to="/main/clinics" color="primary" >
+                    <Button component={Link} to="/main/clinics" color="primary" >
                       View more clinics
                     </Button>
                   </div>

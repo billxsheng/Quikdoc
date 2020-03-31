@@ -37,19 +37,30 @@ app.get('/patient', (req, res, next) => {
     });
 });
 
-/** GET patient record by clinic ID and patient health card number*/
-app.get('/record', (req, res, next) => {
-
+/** GET clinic form by clinic ID*/
+app.get('/forms/clinic/:id', (req, res, next) => {
+    controllers.getClinicForm(req.params.id).then((rows) => {
+        res.status(200).send(rows);
+    }) 
 });
 
 /** GET patient form by health card number and clinic ID*/
-app.get('/forms/patient', (req, res, next) => {
-    
+app.get('/forms/patient/:id', (req, res, next) => {
+    controllers.getPatientForm(req.params.id).then((rows) => {
+        res.status(200).send(rows);
+    }) 
 });
 
-/** GET clinic form by clinic ID*/
-app.get('/forms/clinic', (req, res, next) => {
-    
+/** GET all forms for patient by health card number*/
+app.get('/forms', (req, res, next) => {
+    controllers.getAllPatientForms().then((rows) => {
+        res.status(200).send(rows);
+    }) 
+});
+
+/** GET patient record by clinic ID and patient health card number*/
+app.get('/record', (req, res, next) => {
+
 });
 
 /** POST cancel appointment */

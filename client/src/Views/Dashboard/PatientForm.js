@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
@@ -5,14 +6,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import Title from './Components/Title';
-import { Link } from 'react-router-dom';
+import Typography from '@material-ui/core/Typography';
 
 const drawerWidth = 240;
 
@@ -102,13 +97,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Forms() {
+export default function PatientForm(props) {
   const classes = useStyles();
-  const [forms, setForms] = useState([]);
+  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  const [form, setForm] = useState([]);
 
   React.useEffect(() => {
-    axios.get('http://localhost:8080/api/forms').then((forms) => {
-      setForms(forms.data);
+    axios.get(`http://localhost:8080/api/forms/patient/${props.match.params.formID}`).then((form) => {
+      setForm(form.data[0]);
     })
   }, []);
 
@@ -119,26 +115,16 @@ export default function Forms() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
+            <Grid item xs={12} md={12} lg={12}>
+              <Paper className={fixedHeightPaper}>
                 <React.Fragment>
-                  <Title>Forms</Title>
-                  <Table size="small">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>Clinic</TableCell>
-                        <TableCell></TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {forms.map((row) => (
-                        <TableRow key={row.id}>
-                          <TableCell>{row.clinic_name}</TableCell>
-                          <TableCell><Button component={Link} to={'/main/forms/patient/' + row.patient_form_id}>View Form</Button></TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
+                  <Title>Patient Form</Title>
+                  <Typography component="p" variant="h4" className={classes.depositContext}>
+                    {form.clinic_name}
+                  </Typography>
+                  <Typography color="textSecondary" >
+                    Form URL: {form.patient_form_URL}
+                  </Typography>
                 </React.Fragment>
               </Paper>
             </Grid>
