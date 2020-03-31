@@ -88,12 +88,16 @@ app.get('/records/:id', (req, res, next) => {
 
 /** POST cancel appointment */
 app.post('/appointment/cancel', (req, res, next) => {
-    
+    controllers.cancelAppointment(req.body).then((rows) => {
+        res.status(200).send(rows);
+    })
 });
 
 /** POST book appointment */
 app.post('/appointment/book', (req, res, next) => {
-    
+    controllers.getClinicByID(req.body).then((rows) => {
+        res.status(200).send(rows);
+    })
 });
 
 module.exports = app;
