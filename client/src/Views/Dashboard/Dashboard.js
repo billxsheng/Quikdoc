@@ -152,27 +152,34 @@ export default function Dashboard() {
               <Paper className={fixedHeightPaper}>
                 <React.Fragment>
                   <Title>Upcoming Appointment</Title>
-                  <Typography component="p" variant="h4" className={classes.depositContext}>
-                    {appointment.clinic_name}
-                  </Typography>
-                  <Typography color="textSecondary">
-                    at {appointment.appointment_time} | {appointment.appointment_date}
-                  </Typography>
-                  <Typography color="textSecondary">
-                    {appointment.clinic_address}
-                  </Typography>
-                  <div className={classes.seeMore}>
-                    <form id="form-form" noValidate onSubmit={handleSubmit}>
-                      <TextField
-                        autoComplete="fname"
-                        name="formURL"
-                        label="Form URL"
-                        autoFocus
-                        onChange={e => setFormURL(e.target.value)}
-                      />
-                      <Button type="submit">Add Form</Button>
-                    </form>
-                  </div>
+                  {appointment ?
+                    <React.Fragment>
+                      <Typography component="p" variant="h4" className={classes.depositContext}>
+                        {appointment.clinic_name}
+                      </Typography>
+                      <Typography color="textSecondary">
+                        at {appointment.appointment_time} | {appointment.appointment_date}
+                      </Typography>
+                      <Typography color="textSecondary">
+                        {appointment.clinic_address}
+                      </Typography>
+                      <div className={classes.seeMore}>
+                        <form id="form-form" noValidate onSubmit={handleSubmit}>
+                          <TextField
+                            autoComplete="fname"
+                            name="formURL"
+                            label="Form URL"
+                            autoFocus
+                            onChange={e => setFormURL(e.target.value)}
+                          />
+                          <Button type="submit">Add Form</Button>
+                        </form>
+                      </div>                 </React.Fragment>
+                    :
+                    <Typography component="p" variant="h4" className={classes.depositContext}>
+                      No Upcoming Appointments
+                    </Typography>
+                  }
                 </React.Fragment>
               </Paper>
             </Grid>
