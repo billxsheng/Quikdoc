@@ -132,4 +132,3 @@ module.exports.cancelAppointment = async() => {
 module.exports.bookAppointment = async() => {
     
 }
-

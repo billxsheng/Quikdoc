@@ -10,11 +10,12 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Title from './Components/Title';
 import Typography from '@material-ui/core/Typography';
-// import DateFnsUtils from '@date-io/date-fns';
+import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
   KeyboardDatePicker,
+  DateTimePicker,
 } from '@material-ui/pickers';
 
 const drawerWidth = 240;
@@ -109,19 +110,12 @@ export default function Clinic(props) {
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const [clinic, setClinic] = useState([]);
-  const [formData, setFormData] = useState([]);
+  const [selectedDate, setSelectedDate] = React.useState(new Date());
+  const [selectedTime, setSelectedTime] = React.useState(new Date().getTime());
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    // if () {
-    //   document.getElementById("booking-form").reset();
-    //   let body = {
-
-    //   }
-    //   axios.post('http://localhost:8080/api/forms/add', body).then(() => {
-    //     console.log('successful')
-    //   })
-    // }
+    console.log(selectedDate, selectedTime)
   }
 
   React.useEffect(() => {
@@ -182,36 +176,22 @@ export default function Clinic(props) {
                 <React.Fragment>
                   <Title>Book Appointment</Title>
                   <form id="booking-form" noValidate onSubmit={handleSubmit}>
-                    <MuiPickersUtilsProvider 
-                    // utils={DateFnsUtils}
-                    >
-                      <Grid container justify="space-around">
-                        <KeyboardDatePicker
-                          disableToolbar
-                          variant="inline"
-                          format="MM/dd/yyyy"
-                          margin="normal"
-                          id="date-picker-inline"
-                          label="Date picker inline"
-                          // value={selectedDate}
-                          // onChange={handleDateChange}
-                          KeyboardButtonProps={{
-                            'aria-label': 'change date',
+                    <MuiPickersUtilsProvider utils={DateFnsUtils} >
+                      <Grid container>
+                        <DateTimePicker
+                          value={selectedDate}
+                          disablePast
+                          onChange={(date) => {
+                            setSelectedDate(date)
                           }}
-                        />
-                        <KeyboardTimePicker
-                          margin="normal"
-                          id="time-picker"
-                          label="Time picker"
-                          // value={selectedDate}
-                          // onChange={handleDateChange}
-                          KeyboardButtonProps={{
-                            'aria-label': 'change time',
-                          }}
+                          label="Appointment Datetime"
+                          showTodayButton
                         />
                       </Grid>
                     </MuiPickersUtilsProvider>
-                    <Button type="submit">Book Appointment</Button>
+                    <div>
+                      <Button color="primary" type="submit">Book Appointment</Button>
+                    </div>
                   </form>
                 </React.Fragment>
               </Paper>
