@@ -38,16 +38,22 @@ module.exports.getSuggestedClinics = async() => {
     
 }
 
-/** GET all clinics */
-module.exports.getClinics = async () => {
+/** GET all appointment clinics */
+module.exports.getAppointmentClinics = async () => {
     connection.connect();
-    query =  `SELECT * from clinic;`;
+    query =  `select * from appointment_clinic a inner join clinic c on a.FK_appointment_clinic_id = c.clinic_id;`;
     return connection.promise().query(query).then((e) => {
         return e[0]
     })
+}
 
-
-    // console.log(rows)
+/** GET all walk in clinics */
+module.exports.getWalkInClinics = async () => {
+    connection.connect();
+    query =  `select * from walkin_clinic w inner join clinic c on w.FK_walkin_clinic_id = c.clinic_id;`;
+    return connection.promise().query(query).then((e) => {
+        return e[0]
+    })
 }
 
 /** GET clinic by ID */

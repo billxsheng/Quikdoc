@@ -43,9 +43,14 @@ module.exports.getSuggestedClinics = async() => {
 
 }
 
-/** GET all clinics */
-module.exports.getClinics = async() => {
-    return repository.getClinics();
+/** GET all appointment clinics */
+module.exports.getAppointmentClinics = async() => {
+    return repository.getAppointmentClinics();
+}
+
+/** GET all walk in clinics */
+module.exports.getWalkInClinics = async() => {
+    return repository.getWalkInClinics();
 }
 
 /** GET clinic by ID */

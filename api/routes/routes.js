@@ -1,6 +1,5 @@
 const express = require('express');
 const controllers = require('../controllers/controller');
-const CircularJSON = require('flatted');
 const app = express.Router();
 
 // Sample routes
@@ -34,18 +33,18 @@ app.get('/appointments', (req, res, next) => {
     });
 });
 
-/** GET suggested clinics */
-app.get('/clinics', (req, res, next) => {
-    controllers.getClinics().then((rows) => {
-        // console.log(rows)
-        const results = CircularJSON.stringify(rows);
-        res.status(200).send(results);
+/** GET all appointment clinics */
+app.get('/appointment_clinics', (req, res, next) => {
+    controllers.getAppointmentClinics().then((rows) => {
+        res.status(200).send(rows);
     })
 });
 
-/** GET all clinics */
-app.get('/clinics', (req, res, next) => {
-    
+/** GET all walk in clinics */
+app.get('/walkin_clinics', (req, res, next) => {
+    controllers.getWalkInClinics().then((rows) => {
+        res.status(200).send(rows);
+    })
 });
 
 /** GET clinic by ID */

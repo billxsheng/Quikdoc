@@ -117,13 +117,19 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Clinics() {
   const classes = useStyles();
-  const [clinics, setClinics] = useState([]);
+  const [walkInClinics, setWalkInClinics] = useState([]);
+  const [appointmentClinics, setAppointmentClinics] = useState([]);
 
-  useEffect(() => {
-    axios.get('http://localhost:8080/api/clinics').then((rows) => {
-      console.log(rows);
+  React.useEffect(() => {
+    axios.get('http://localhost:8080/api/appointment_clinics').then((clinics) => {
+      setAppointmentClinics(clinics.data);
+    })
+    axios.get('http://localhost:8080/api/walkin_clinics').then((clinics) => {
+      setWalkInClinics(clinics.data);
+      console.log(clinics.data)
     })
   }, []);
+
 
   return (
     <div className={classes.root}>
@@ -160,17 +166,28 @@ export default function Clinics() {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {rows.map((row) => (
-                        <TableRow key={row.name}>
-                          <TableCell>{row.name}</TableCell>
-                          <TableCell>{row.rating}</TableCell>
-                          <TableCell>{row.type}</TableCell>
-                          <TableCell>{row.waitTime}</TableCell>
-                          <TableCell>{row.location}</TableCell>
-                          <TableCell>{row.distance}</TableCell>
-                          <TableCell><Button component={Link} to="/main/clinics/1">More Info</Button></TableCell>
-                        </TableRow>
-                      ))}
+                    {walkInClinics.map((row) => (
+                      <TableRow key={row.name}>
+                        <TableCell>{row.clinic_name}</TableCell>
+                        <TableCell>{row.clinic_rating}</TableCell>
+                        <TableCell>Appointment Clinic</TableCell>
+                        <TableCell>{row.avg_wait_time + " Hours"}</TableCell>
+                        <TableCell>{row.clinic_address}</TableCell>
+                        <TableCell>{Math.floor(Math.random() * 9 + 1)}</TableCell>
+                        <TableCell><Button component={Link} to="/main/clinics/">More Info</Button></TableCell>
+                      </TableRow>
+                    ))}
+                    {appointmentClinics.map((row) => (
+                      <TableRow key={row.name}>
+                        <TableCell>{row.clinic_name}</TableCell>
+                        <TableCell>{row.clinic_rating}</TableCell>
+                        <TableCell>Walk-in Clinic</TableCell>
+                        <TableCell>{row.avg_wait_days + " Days"}</TableCell>
+                        <TableCell>{row.clinic_address}</TableCell>
+                        <TableCell>{Math.floor(Math.random() * 9 + 1)}</TableCell>
+                        <TableCell><Button component={Link} to="/main/clinics/">More Info</Button></TableCell>
+                      </TableRow>
+                    ))}
                     </TableBody>
                   </Table>
                 </React.Fragment>
