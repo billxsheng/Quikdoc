@@ -49,8 +49,10 @@ module.exports.getUpcomingAppointments = async(userId) => {
 }
 
 /** GET clinic by ID */
-module.exports.getClinicByID = async() => {
-    
+module.exports.getClinicByID = async(id) => {
+    return repository.getClinicByID(id).then((rows) => {
+        return rows;
+    })
 }
 
 /** GET patient record by clinic ID and patient health card number*/

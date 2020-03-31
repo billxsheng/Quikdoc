@@ -52,8 +52,23 @@ module.exports.getWalkInClinics = async () => {
 }
 
 /** GET clinic by ID */
-module.exports.getClinicByID = async() => {
+module.exports.getClinicByID = async(id) => {
+    connection.connect();
+    queryW =  `select * from walkin_clinic w inner join clinic c on w.FK_walkin_clinic_id = c.clinic_id where c.clinic_id = ${id};`;
+    queryA =  `select * from appointment_clinic a inner join clinic c on a.FK_appointment_clinic_id = c.clinic_id where c.clinic_id = ${id};`;
+    let w = await connection.promise().query(queryW).then((e) => {
+        return e[0]
+    })
     
+    let a = await connection.promise().query(queryA).then((e) => {
+        return e[0]
+    })
+
+    if(w.length < 1) {
+        return a;
+    } else {
+        return w;
+    }
 }
 
 /** GET patient record by clinic ID and patient health card number*/

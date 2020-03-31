@@ -1,5 +1,5 @@
-import React from 'react';
-import clsx from 'clsx';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
@@ -114,9 +114,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Clinic() {
+export default function Clinic(props) {
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  const [clinic, setClinic] = useState([]);
+
+  React.useEffect(() => {
+    axios.get(`http://localhost:8080/api/clinics/${props.match.params.clinicID}`).then((clinics) => {
+      setClinic(clinics.data[0]);
+    })
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -130,19 +137,19 @@ export default function Clinic() {
                 <React.Fragment>
                   <Title>Clinic</Title>
                   <Typography component="p" variant="h4" className={classes.depositContext}>
-                    Stouffville Hospital
+                    {clinic.clinic_name}
                   </Typography>
                   <Typography color="textSecondary" >
-                    Type: Walk-in
+                    Type: {clinic.avg_wait_time ? "Walk-in Clinic": "Appointment Clinic"}
                   </Typography>
                   <Typography color="textSecondary" >
-                    Rating: 3.5/5
+                    Rating: {clinic.clinic_rating}
                   </Typography>
                   <Typography color="textSecondary" >
                     Distance (km): 5
                   </Typography>
                   <Typography color="textSecondary" >
-                    Wait Time: 30 minutes
+                    Wait Time: {clinic.avg_wait_time ? clinic.avg_wait_time + " Hours": clinic.avg_wait_days + " Days"}
                   </Typography>
                 </React.Fragment>
               </Paper>
@@ -152,10 +159,10 @@ export default function Clinic() {
                 <React.Fragment>
                   <Title>Schedule</Title>
                   <Typography component="p" variant="h4">
-                    Weekdays: 
+                    Weekdays: {clinic.weekday_opening_time} - {clinic.weekday_closing_time}
                   </Typography>
                   <Typography component="p" variant="h4"  className={classes.depositContext}>
-                    Weekends: 
+                    Weekends: {clinic.weekend_opening_time} - {clinic.weekend_closing_time}
                   </Typography>
                   <div>
                     <Button color="primary" href="#" onClick={preventDefault}>

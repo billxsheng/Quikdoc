@@ -2,13 +2,6 @@ const express = require('express');
 const controllers = require('../controllers/controller');
 const app = express.Router();
 
-/** GET all upcoming appointments */
-app.get('/appointments', (req, res, next) => {
-    controllers.getUpcomingAppointments(req.params.userId).then((rows) => {
-        res.status(200).send(rows)
-    });
-});
-
 /** GET all appointment clinics */
 app.get('/appointment_clinics', (req, res, next) => {
     controllers.getAppointmentClinics().then((rows) => {
@@ -25,7 +18,16 @@ app.get('/walkin_clinics', (req, res, next) => {
 
 /** GET clinic by ID */
 app.get('/clinics/:id', (req, res, next) => {
-    
+    controllers.getClinicByID(req.params.id).then((rows) => {
+        res.status(200).send(rows);
+    })    
+});
+
+/** GET all upcoming appointments */
+app.get('/appointments', (req, res, next) => {
+    controllers.getUpcomingAppointments(req.params.userId).then((rows) => {
+        res.status(200).send(rows)
+    });
 });
 
 /** GET patient record by clinic ID and patient health card number*/

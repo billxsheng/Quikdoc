@@ -14,19 +14,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './Components/Title';
 
-
-function createData(name, rating, type, waitTime, location, distance) {
-  return { name, rating, type, waitTime, location, distance };
-}
-
-const rows = [
-  createData('Stoufville Hospital', '1/5', 'Appointment', '4 days', 'Markham', 3),
-  createData('Sun Hospital', '3/5', 'Appointment', '6 days', 'Richmond Hill', 5),
-  createData('Tim Hospital', '4/5', 'Walk-in', '1 hour', 'Waterloo', 1),
-  createData('Chris Hospital', '5/5', 'Walk-in', '30 minutes', 'Thornhill', 10),
-  createData('Owl Hospital', '3.5/5', 'Walk-in', '1.5 hours', 'Ottawa', 9),
-];
-
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -126,10 +113,8 @@ export default function Clinics() {
     })
     axios.get('http://localhost:8080/api/walkin_clinics').then((clinics) => {
       setWalkInClinics(clinics.data);
-      console.log(clinics.data)
     })
   }, []);
-
 
   return (
     <div className={classes.root}>
@@ -170,22 +155,22 @@ export default function Clinics() {
                       <TableRow key={row.name}>
                         <TableCell>{row.clinic_name}</TableCell>
                         <TableCell>{row.clinic_rating}</TableCell>
-                        <TableCell>Appointment Clinic</TableCell>
+                        <TableCell>Walk-in Clinic</TableCell>
                         <TableCell>{row.avg_wait_time + " Hours"}</TableCell>
                         <TableCell>{row.clinic_address}</TableCell>
                         <TableCell>{Math.floor(Math.random() * 9 + 1)}</TableCell>
-                        <TableCell><Button component={Link} to="/main/clinics/">More Info</Button></TableCell>
+                        <TableCell><Button component={Link} to={'/main/clinics/' + row.clinic_id}>More Info</Button></TableCell>
                       </TableRow>
                     ))}
                     {appointmentClinics.map((row) => (
                       <TableRow key={row.name}>
                         <TableCell>{row.clinic_name}</TableCell>
                         <TableCell>{row.clinic_rating}</TableCell>
-                        <TableCell>Walk-in Clinic</TableCell>
+                        <TableCell>Appointment Clinic</TableCell>
                         <TableCell>{row.avg_wait_days + " Days"}</TableCell>
                         <TableCell>{row.clinic_address}</TableCell>
                         <TableCell>{Math.floor(Math.random() * 9 + 1)}</TableCell>
-                        <TableCell><Button component={Link} to="/main/clinics/">More Info</Button></TableCell>
+                        <TableCell><Button component={Link} to={'/main/clinics/' + row.clinic_id}>More Info</Button></TableCell>
                       </TableRow>
                     ))}
                     </TableBody>
