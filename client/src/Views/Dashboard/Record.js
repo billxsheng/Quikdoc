@@ -1,5 +1,6 @@
-import React from 'react';
 import clsx from 'clsx';
+import React, { useState } from 'react';
+import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
@@ -101,9 +102,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Record() {
+export default function Record(props) {
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  const [record, setRecord] = useState([]);
+
+  React.useEffect(() => {
+    axios.get(`http://localhost:8080/api/records/${props.match.params.recordID}`).then((record) => {
+      setRecord(record.data[0]);
+      console.log(record)
+    })
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -112,46 +121,22 @@ export default function Record() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={6}>
+            <Grid item xs={12} md={12} lg={12}>
               <Paper className={fixedHeightPaper}>
                 <React.Fragment>
-                  <Title>Record</Title>
+                  <Title>Patient Record</Title>
                   <Typography component="p" variant="h4" className={classes.depositContext}>
-                    Stouffville Hospital
+                    {record.clinic_name}
                   </Typography>
                   <Typography color="textSecondary" >
-                    Type: Walk-in
+                    Address: {record.clinic_address}
                   </Typography>
                   <Typography color="textSecondary" >
-                    Rating: 3.5/5
+                    Most Recent Record Update: {record.patient_record_info}
                   </Typography>
                   <Typography color="textSecondary" >
-                    Distance (km): 5
+                    Updated at: {record.patient_record_date}
                   </Typography>
-                  <Typography color="textSecondary" >
-                    Wait Time: 30 minutes
-                  </Typography>
-                </React.Fragment>
-              </Paper>
-            </Grid>
-            <Grid item xs={12} md={6} lg={6}>
-              <Paper className={fixedHeightPaper}>
-                <React.Fragment>
-                  <Title>Schedule</Title>
-                  <Typography component="p" variant="h4">
-                    Weekdays: 
-                  </Typography>
-                  <Typography component="p" variant="h4"  className={classes.depositContext}>
-                    Weekends: 
-                  </Typography>
-                  <div>
-                    <Button color="primary" href="#" onClick={preventDefault}>
-                        Get Form
-                    </Button>
-                    <Button color="primary" href="#" onClick={preventDefault}>
-                        Add Form
-                    </Button>
-                  </div>
                 </React.Fragment>
               </Paper>
             </Grid>

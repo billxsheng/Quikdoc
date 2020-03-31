@@ -97,9 +97,18 @@ module.exports.registerUser = async(body) => {
     }) 
 }
 
-/** GET patient record by clinic ID and patient health card number*/
-module.exports.getPatientRecord = async() => {
-    
+/** GET all patient records by health card number*/
+module.exports.getPatientRecords = async() => {
+    return repository.getPatientRecords().then((rows) => {
+        return rows;
+    }) 
+}
+
+/** GET patient record by patient record id*/
+module.exports.getPatientRecord = async(id) => {
+    return repository.getPatientRecord(id).then((rows) => {
+        return rows;
+    }) 
 }
 
 /** POST cancel appointment */

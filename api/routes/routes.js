@@ -72,9 +72,18 @@ app.post('/register', (req, res, next) => {
     }) 
 });
 
-/** GET patient record by clinic ID and patient health card number*/
-app.get('/record', (req, res, next) => {
+/** GET all patient record by health card number sorted by datetime*/
+app.get('/records', (req, res, next) => {
+    controllers.getPatientRecords().then((rows) => {
+        res.status(200).send(rows);
+    }) 
+});
 
+/** GET patient record by clinic ID and patient health card number*/
+app.get('/records/:id', (req, res, next) => {
+    controllers.getPatientRecord(req.params.id).then((rows) => {
+        res.status(200).send(rows);
+    }) 
 });
 
 /** POST cancel appointment */

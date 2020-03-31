@@ -105,9 +105,22 @@ module.exports.registerUser = async(fn, ln, pw, hcn, bt, email) => {
     })
 }
 
-/** GET patient record by clinic ID and patient health card number*/
-module.exports.getPatientRecord = async() => {
+/** GET all patient records by health card number*/
+module.exports.getPatientRecords = async() => {
+    connection.connect();
+    query =  `select * from patient_record r inner join clinic c on r.FK_clinic_id = c.clinic_id where r.FK_health_card_no = 84975214 order by r.patient_record_date;`;
+    return connection.promise().query(query).then((e) => {
+        return e[0]
+    })
+}
 
+/** GET patient record by patient record id*/
+module.exports.getPatientRecord = async(id) => {
+    connection.connect();
+    query =  `select * from patient_record r inner join clinic c on r.FK_clinic_id = c.clinic_id where r.patient_record_id = "${id}";`;
+    return connection.promise().query(query).then((e) => {
+        return e[0]
+    })
 }
 
 /** cancel appointment */

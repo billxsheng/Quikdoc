@@ -108,10 +108,15 @@ export default function Profile() {
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const [patient, setPatient] = useState([]);
+  const [records, setRecords] = useState([]);
 
   React.useEffect(() => {
     axios.get(`http://localhost:8080/api/patient/`).then((patient) => {
       setPatient(patient.data[0]);
+    })
+
+    axios.get(`http://localhost:8080/api/records/`).then((records) => {
+      setRecords(records.data);
     })
   }, []);
 
@@ -150,12 +155,12 @@ export default function Profile() {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {/* {patient.map((row) => (
+                      {records.map((row) => (
                         <TableRow key={row.id}>
-                          <TableCell>{row.name}</TableCell>
-                          <TableCell><Button component={Link} to="/main/records/1">View Record</Button></TableCell>
+                          <TableCell>{row.clinic_name}</TableCell>
+                          <TableCell><Button component={Link} to={"/main/records/" + row.patient_record_id}>View Record</Button></TableCell>
                         </TableRow>
-                      ))} */}
+                      ))}
                     </TableBody>
                   </Table>
                 </React.Fragment>
