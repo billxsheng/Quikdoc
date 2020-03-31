@@ -33,11 +33,6 @@ module.exports.getUpcomingAppointments = async(userId) => {
     return results;
 }
 
-/** GET suggested clinics */
-module.exports.getSuggestedClinics = async() => {
-    
-}
-
 /** GET all appointment clinics */
 module.exports.getAppointmentClinics = async () => {
     connection.connect();

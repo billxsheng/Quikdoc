@@ -31,18 +31,6 @@ module.exports.getAll = async () => {
     });
 }
 
-/** GET all upcoming appointments */
-module.exports.getUpcomingAppointments = async(userId) => {
-    return repository.getUpcomingAppointments(userId).then((rows) => {
-        return rows;
-    })
-}
-
-/** GET suggested clinics */
-module.exports.getSuggestedClinics = async() => {
-
-}
-
 /** GET all appointment clinics */
 module.exports.getAppointmentClinics = async() => {
     return repository.getAppointmentClinics();
@@ -51,6 +39,13 @@ module.exports.getAppointmentClinics = async() => {
 /** GET all walk in clinics */
 module.exports.getWalkInClinics = async() => {
     return repository.getWalkInClinics();
+}
+
+/** GET all upcoming appointments */
+module.exports.getUpcomingAppointments = async(userId) => {
+    return repository.getUpcomingAppointments(userId).then((rows) => {
+        return rows;
+    })
 }
 
 /** GET clinic by ID */
