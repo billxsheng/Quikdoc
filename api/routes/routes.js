@@ -24,15 +24,15 @@ app.get('/clinics/:id', (req, res, next) => {
 });
 
 /** GET all upcoming appointments */
-app.get('/appointments', (req, res, next) => {
-    controllers.getUpcomingAppointments(req.params.userId).then((rows) => {
+app.post('/appointments', (req, res, next) => {
+    controllers.getUpcomingAppointments(req.body).then((rows) => {
         res.status(200).send(rows)
     });
 });
 
 /** GET patient info by health card number*/
-app.get('/patient', (req, res, next) => {
-    controllers.getPatient().then((rows) => {
+app.post('/patient', (req, res, next) => {
+    controllers.getPatient(req.body).then((rows) => {
         res.status(200).send(rows)
     });
 });
@@ -52,8 +52,8 @@ app.get('/forms/patient/:id', (req, res, next) => {
 });
 
 /** GET all forms for patient by health card number*/
-app.get('/forms', (req, res, next) => {
-    controllers.getAllPatientForms().then((rows) => {
+app.post('/forms', (req, res, next) => {
+    controllers.getAllPatientForms(req.body).then((rows) => {
         res.status(200).send(rows);
     }) 
 });
@@ -73,8 +73,8 @@ app.post('/register', (req, res, next) => {
 });
 
 /** GET all patient record by health card number sorted by datetime*/
-app.get('/records', (req, res, next) => {
-    controllers.getPatientRecords().then((rows) => {
+app.post('/records', (req, res, next) => {
+    controllers.getPatientRecords(req.body).then((rows) => {
         res.status(200).send(rows);
     }) 
 });

@@ -140,7 +140,11 @@ export default function Appointments() {
   }
 
   React.useEffect(() => {
-    axios.get(`http://localhost:8080/api/appointments`).then((clinics) => {
+    let body = {
+      id: localStorage.getItem('id')
+    }
+
+    axios.post(`http://localhost:8080/api/appointments`, body).then((clinics) => {
       setAppointments(clinics.data);
     })
   }, []);

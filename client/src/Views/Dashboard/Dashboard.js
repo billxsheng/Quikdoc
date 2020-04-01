@@ -129,8 +129,10 @@ export default function Dashboard() {
   }
 
   React.useEffect(() => {
-    console.log(localStorage.getItem('id'))
-    axios.get(`http://localhost:8080/api/appointments`).then((appointment) => {
+    let body = {
+      id: localStorage.getItem('id')
+    }
+    axios.post(`http://localhost:8080/api/appointments`, body).then((appointment) => {
       setAppointment(appointment.data[0]);
     })
     axios.get('http://localhost:8080/api/appointment_clinics').then((clinics) => {

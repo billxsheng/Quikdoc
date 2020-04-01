@@ -42,18 +42,18 @@ module.exports.getClinicByID = async(id) => {
 }
 
 /** GET all upcoming appointments for a specific patient */
-module.exports.getUpcomingAppointments = async(userId) => {
+module.exports.getUpcomingAppointments = async(id) => {
     connection.connect();
-    query =  `select * from patient p inner join appointment a inner join clinic c on p.health_card_no = a.FK_health_card_no and c.clinic_id = a.FK_clinic_id where p.health_card_no = 84975214 order by a.appointment_date, a.appointment_time;`;
+    query =  `select * from patient p inner join appointment a inner join clinic c on p.health_card_no = a.FK_health_card_no and c.clinic_id = a.FK_clinic_id where p.health_card_no = ${id} order by a.appointment_date, a.appointment_time;`;
     return connection.promise().query(query).then((e) => {
         return e[0]
     })
 }
 
 /** GET patient info by health card number*/
-module.exports.getPatient = async() => {
+module.exports.getPatient = async(id) => {
     connection.connect();
-    query =  `select * from patient where patient.health_card_no = 84975214;`;
+    query =  `select * from patient where patient.health_card_no = ${id};`;
     return connection.promise().query(query).then((e) => {
         return e[0]
     })
@@ -79,9 +79,9 @@ module.exports.getPatientForm = async(id) => {
 }
 
 /** GET all forms for patient by health card number*/
-module.exports.getAllPatientForms = async() => {
+module.exports.getAllPatientForms = async(id) => {
     connection.connect();
-    query =  `select * from patient p inner join patient_form f inner join clinic c on p.health_card_no = f.FK_health_card_no and c.clinic_id = f.FK_clinic_id where p.health_card_no = 84975214 order by f.patient_form_upload_datetime DESC;`;
+    query =  `select * from patient p inner join patient_form f inner join clinic c on p.health_card_no = f.FK_health_card_no and c.clinic_id = f.FK_clinic_id where p.health_card_no = ${id} order by f.patient_form_upload_datetime DESC;`;
     return connection.promise().query(query).then((e) => {
         return e[0]
     })
@@ -106,9 +106,9 @@ module.exports.registerUser = async(fn, ln, pw, hcn, bt, email) => {
 }
 
 /** GET all patient records by health card number*/
-module.exports.getPatientRecords = async() => {
+module.exports.getPatientRecords = async(id) => {
     connection.connect();
-    query =  `select * from patient_record r inner join clinic c on r.FK_clinic_id = c.clinic_id where r.FK_health_card_no = 84975214 order by r.patient_record_date;`;
+    query =  `select * from patient_record r inner join clinic c on r.FK_clinic_id = c.clinic_id where r.FK_health_card_no = ${id} order by r.patient_record_date;`;
     return connection.promise().query(query).then((e) => {
         return e[0]
     })
@@ -136,7 +136,7 @@ module.exports.cancelAppointment = async(id) => {
 module.exports.bookAppointment = async(c_id, hcn, appt_date, appt_time) => {
     var gen_appointment_id = Math.floor(Math.random() * 1000000000);
     connection.connect();
-    query = `insert into appointment(\`appointment_id\`,\`FK_clinic_id\`,\`FK_health_card_no\`,\`appointment_date\`,\`appointment_time\`) values (${gen_appointment_id}, ${c_id}, 84975214, "${appt_date}", "${appt_time}");`;
+    query = `insert into appointment(\`appointment_id\`,\`FK_clinic_id\`,\`FK_health_card_no\`,\`appointment_date\`,\`appointment_time\`) values (${gen_appointment_id}, ${c_id}, ${hcn}, "${appt_date}", "${appt_time}");`;
     return connection.promise().query(query).then((e) => {
         return e;
     })

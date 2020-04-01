@@ -49,15 +49,15 @@ module.exports.getClinicByID = async(id) => {
 }
 
 /** GET all upcoming appointments */
-module.exports.getUpcomingAppointments = async(userId) => {
-    return repository.getUpcomingAppointments(userId).then((rows) => {
+module.exports.getUpcomingAppointments = async(body) => {
+    return repository.getUpcomingAppointments(body.id).then((rows) => {
         return rows;
     })
 }
 
 /** GET patient info by health card number*/
-module.exports.getPatient = async() => {
-    return repository.getPatient().then((rows) => {
+module.exports.getPatient = async(body) => {
+    return repository.getPatient(body.id).then((rows) => {
         return rows;
     })
 }
@@ -77,8 +77,8 @@ module.exports.getPatientForm = async(id) => {
 }
 
 /** GET all forms for patient by health card number*/
-module.exports.getAllPatientForms = async() => {
-    return repository.getAllPatientForms().then((rows) => {
+module.exports.getAllPatientForms = async(body) => {
+    return repository.getAllPatientForms(body.id).then((rows) => {
         return rows;
     }) 
 }
@@ -98,8 +98,8 @@ module.exports.registerUser = async(body) => {
 }
 
 /** GET all patient records by health card number*/
-module.exports.getPatientRecords = async() => {
-    return repository.getPatientRecords().then((rows) => {
+module.exports.getPatientRecords = async(body) => {
+    return repository.getPatientRecords(body.id).then((rows) => {
         return rows;
     }) 
 }

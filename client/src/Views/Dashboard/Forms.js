@@ -107,7 +107,10 @@ export default function Forms() {
   const [forms, setForms] = useState([]);
 
   React.useEffect(() => {
-    axios.get('http://localhost:8080/api/forms').then((forms) => {
+    let body = {
+      id: localStorage.getItem('id')
+    }
+    axios.post('http://localhost:8080/api/forms', body).then((forms) => {
       setForms(forms.data);
     })
   }, []);

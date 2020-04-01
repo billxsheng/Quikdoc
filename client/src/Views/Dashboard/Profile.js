@@ -111,11 +111,14 @@ export default function Profile() {
   const [records, setRecords] = useState([]);
 
   React.useEffect(() => {
-    axios.get(`http://localhost:8080/api/patient/`).then((patient) => {
+    let body = {
+      id: localStorage.getItem('id')
+    }
+    axios.post(`http://localhost:8080/api/patient/`, body).then((patient) => {
       setPatient(patient.data[0]);
     })
 
-    axios.get(`http://localhost:8080/api/records/`).then((records) => {
+    axios.post(`http://localhost:8080/api/records/`, body).then((records) => {
       setRecords(records.data);
     })
   }, []);

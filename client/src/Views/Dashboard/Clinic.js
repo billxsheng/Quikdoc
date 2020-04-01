@@ -127,7 +127,8 @@ export default function Clinic(props) {
       let body = {
         clinic: clinic.clinic_id,
         date, 
-        time
+        time,
+        healthCardNumber: localStorage.getItem('id')
       }
       axios.post('http://localhost:8080/api/appointment/book', body).then(() => {
         alert(`Appointment booked for ${date} at ${time}!`)
