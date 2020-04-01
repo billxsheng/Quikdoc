@@ -43,7 +43,7 @@ export default function Login(props) {
           return;
         } else {
           props.history.push('/main/dashboard');
-          // localStorage.setItem('user', result.data[0])
+          localStorage.setItem('id', result.data[0][0].health_card_no)
         }
       })
     }

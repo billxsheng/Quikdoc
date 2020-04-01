@@ -129,7 +129,7 @@ export default function Dashboard() {
   }
 
   React.useEffect(() => {
-    // console.log(JSON.stringify(localStorage.getItem('user')))
+    console.log(localStorage.getItem('id'))
     axios.get(`http://localhost:8080/api/appointments`).then((appointment) => {
       setAppointment(appointment.data[0]);
     })
@@ -202,7 +202,7 @@ export default function Dashboard() {
                     </TableHead>
                     <TableBody>
                       {wClinic.map((row) => (
-                        <TableRow key={row.name}>
+                        <TableRow key={row.clinic_id}>
                           <TableCell>{row.clinic_name}</TableCell>
                           <TableCell>{row.clinic_rating}</TableCell>
                           <TableCell>Walk-in Clinic</TableCell>
@@ -213,7 +213,7 @@ export default function Dashboard() {
                         </TableRow>
                       ))}
                       {aClinic.map((row) => (
-                        <TableRow key={row.name}>
+                        <TableRow key={row.clinic_id}>
                           <TableCell>{row.clinic_name}</TableCell>
                           <TableCell>{row.clinic_rating}</TableCell>
                           <TableCell>Appointment Clinic</TableCell>

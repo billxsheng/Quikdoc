@@ -125,7 +125,7 @@ export default function Wrapper(props) {
   )
 
   let onLogout = () => {
-    localStorage.removeItem('user');
+    localStorage.removeItem('id');
     props.history.push('/login');
   }
 
