@@ -124,6 +124,11 @@ export default function Wrapper(props) {
     </Switch>
   )
 
+  let onLogout = () => {
+    localStorage.removeItem('user');
+    props.history.push('/login');
+  }
+
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -153,7 +158,7 @@ export default function Wrapper(props) {
           <IconButton component={Link} to="/main/profile" color="inherit">
               <PersonIcon />
           </IconButton>
-          <Button component={Link} to="/start" style={{color:'white'}}>
+          <Button onClick = {onLogout} style={{color:'white'}}>
             Logout
           </Button>
         </Toolbar>

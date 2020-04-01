@@ -141,3 +141,12 @@ module.exports.bookAppointment = async(c_id, hcn, appt_date, appt_time) => {
         return e;
     })
 }
+
+/** GET user by hcn and password*/
+module.exports.loginUser = async(hcn, password) => {
+    connection.connect();
+    query = `select * from patient p where p.health_card_no = ${hcn} and p.password = "${password}";`;
+    return connection.promise().query(query).then((e) => {
+        return e;
+    })
+}

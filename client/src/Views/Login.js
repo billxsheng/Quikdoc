@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -24,8 +25,29 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Login() {
+export default function Login(props) {
   const classes = useStyles();
+  const [hcn, setHcn] = useState("");
+  const [password, setPassword] = useState([]);
+
+  const onFormSubmit = (e) => {
+    e.preventDefault();
+    document.getElementById("register-form").reset();
+    if(hcn && password) {
+      let body = {
+        hcn,
+        password
+      }
+      axios.post('http://localhost:8080/api/login', body).then((result) => {
+        if(result.data.length < 1) {
+          return;
+        } else {
+          props.history.push('/main/dashboard');
+          localStorage.setItem('user', result.data[0])
+        }
+      })
+    }
+  }
 
   return (
     <Container style={{marginBottom: '100px', fontSize: 'calc(10px + 2vmin)'}} component="main" maxWidth="xs">
@@ -34,7 +56,7 @@ export default function Login() {
         <h1 style={{color:'black'}}>
             Login
         </h1>
-        <form className={classes.form} noValidate>
+        <form id="login-form" onSubmit = {onFormSubmit} className={classes.form} noValidate>
           <TextField
             variant="outlined"
             margin="normal"
@@ -45,6 +67,9 @@ export default function Login() {
             name="healthcardId"
             autoComplete="healthcardId"
             autoFocus
+            onChange = {(e) => {
+              setHcn(e.target.value)
+            }}
           />
           <TextField
             variant="outlined"
@@ -56,6 +81,9 @@ export default function Login() {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange = {(e) => {
+              setPassword(e.target.value)
+            }}
           />
           <Button
             type="submit"
@@ -63,8 +91,8 @@ export default function Login() {
             variant="contained"
             color="primary"
             className={classes.submit}
-            component={Link} 
-            to="/main/dashboard"
+            // component={Link} 
+            // to="/main/dashboard"
           >
             Sign In
           </Button>

@@ -124,3 +124,10 @@ module.exports.bookAppointment = async(body) => {
         return rows;
     })
 }
+
+/** GET user by hcn and password*/
+module.exports.loginUser = async(body) => {
+    return repository.loginUser(body.hcn, body.password).then((rows) => {
+        return rows;
+    })
+}

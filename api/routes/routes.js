@@ -100,6 +100,13 @@ app.post('/appointment/book', (req, res, next) => {
     })
 });
 
+/** POST user by hcn and password*/
+app.post('/login', (req, res, next) => {
+    controllers.loginUser(req.body).then((rows) => {
+        res.status(200).send(rows);
+    })
+});
+
 module.exports = app;
 
 

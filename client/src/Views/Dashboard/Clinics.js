@@ -100,12 +100,180 @@ const useStyles = makeStyles((theme) => ({
   depositContext: {
     flex: 1,
   },
+  appointmentRow: {
+    backgroundColor: '#ededed'
+  }
 }));
 
 export default function Clinics() {
   const classes = useStyles();
   const [walkInClinics, setWalkInClinics] = useState([]);
   const [appointmentClinics, setAppointmentClinics] = useState([]);
+  const [isSortedByRating, setIsSortedByRating] = useState(false);
+  const [isSortedByProximity, setIsSortedByProximity] = useState(false);
+  const [isSortedByWaitTime, setIsSortedByWaitTime] = useState(false);
+
+
+  const onSortByRating = () => {
+    setIsSortedByRating(true)
+    setIsSortedByProximity(false)
+    setIsSortedByWaitTime(false)
+  }
+
+  const onSortByProximity = () => {
+    setIsSortedByProximity(true)
+    setIsSortedByRating(false)
+    setIsSortedByWaitTime(false)
+  }
+
+  const onSortByWaitTime = () => {
+    setIsSortedByWaitTime(true)
+    setIsSortedByProximity(false)
+    setIsSortedByRating(false)
+  }
+
+  function List() {
+    if(isSortedByRating) {
+      return (
+        <React.Fragment>
+          {walkInClinics.sort((a, b) => {
+            return parseFloat(b.clinic_rating) - parseFloat(a.clinic_rating)
+          }).map((row) => {
+            return (
+            <TableRow key={row.name}>
+              <TableCell>{row.clinic_name}</TableCell>
+              <TableCell>{row.clinic_rating}</TableCell>
+              <TableCell>Walk-in Clinic</TableCell>
+              <TableCell>{row.avg_wait_time + " Hours"}</TableCell>
+              <TableCell>{row.clinic_address}</TableCell>
+              <TableCell>{Math.floor(Math.random() * 9 + 1)}</TableCell>
+              <TableCell><Button component={Link} to={'/main/clinics/' + row.clinic_id}>More Info</Button></TableCell>
+            </TableRow>
+            )
+          })}
+          {
+            appointmentClinics.sort((a,b) => {
+              return parseFloat(b.clinic_rating) - parseFloat(a.clinic_rating)
+            }).map((row) => {
+              return (
+            <TableRow className={classes.appointmentRow} key={row.name}>
+              <TableCell>{row.clinic_name}</TableCell>
+              <TableCell>{row.clinic_rating}</TableCell>
+              <TableCell>Appointment Clinic</TableCell>
+              <TableCell>{row.avg_wait_days + " Days"}</TableCell>
+              <TableCell>{row.clinic_address}</TableCell>
+              <TableCell>{Math.floor(Math.random() * 9 + 1)}</TableCell>
+              <TableCell><Button component={Link} to={'/main/clinics/' + row.clinic_id}>More Info</Button></TableCell>
+            </TableRow>
+              )
+            })
+          }
+        </React.Fragment>
+      )
+    } else if (isSortedByProximity) {
+      return (
+        <React.Fragment>
+          {walkInClinics.sort((a, b) => {
+            return parseFloat(b.avg_wait_time) - parseFloat(a.avg_wait_time)
+          }).map((row) => {
+            return (
+            <TableRow key={row.name}>
+              <TableCell>{row.clinic_name}</TableCell>
+              <TableCell>{row.clinic_rating}</TableCell>
+              <TableCell>Walk-in Clinic</TableCell>
+              <TableCell>{row.avg_wait_time + " Hours"}</TableCell>
+              <TableCell>{row.clinic_address}</TableCell>
+              <TableCell>{Math.floor(Math.random() * 9 + 1)}</TableCell>
+              <TableCell><Button component={Link} to={'/main/clinics/' + row.clinic_id}>More Info</Button></TableCell>
+            </TableRow>
+            )
+          })}
+          {
+            appointmentClinics.sort((a,b) => {
+              return parseFloat(b.avg_wait_days) - parseFloat(a.avg_wait_days)
+            }).map((row) => {
+              return (
+            <TableRow className={classes.appointmentRow} key={row.name}>
+              <TableCell>{row.clinic_name}</TableCell>
+              <TableCell>{row.clinic_rating}</TableCell>
+              <TableCell>Appointment Clinic</TableCell>
+              <TableCell>{row.avg_wait_days + " Days"}</TableCell>
+              <TableCell>{row.clinic_address}</TableCell>
+              <TableCell>{Math.floor(Math.random() * 9 + 1)}</TableCell>
+              <TableCell><Button component={Link} to={'/main/clinics/' + row.clinic_id}>More Info</Button></TableCell>
+            </TableRow>
+              )
+            })
+          }
+        </React.Fragment>
+      )
+    } else if(isSortedByWaitTime) {
+      return (
+        <React.Fragment>
+          {walkInClinics.sort((a, b) => {
+            return parseFloat(b.avg_wait_time) - parseFloat(a.avg_wait_time)
+          }).map((row) => {
+            return (
+            <TableRow key={row.name}>
+              <TableCell>{row.clinic_name}</TableCell>
+              <TableCell>{row.clinic_rating}</TableCell>
+              <TableCell>Walk-in Clinic</TableCell>
+              <TableCell>{row.avg_wait_time + " Hours"}</TableCell>
+              <TableCell>{row.clinic_address}</TableCell>
+              <TableCell>{Math.floor(Math.random() * 9 + 1)}</TableCell>
+              <TableCell><Button component={Link} to={'/main/clinics/' + row.clinic_id}>More Info</Button></TableCell>
+            </TableRow>
+            )
+          })}
+          {
+            appointmentClinics.sort((a,b) => {
+              return parseFloat(b.avg_wait_days) - parseFloat(a.avg_wait_days)
+            }).map((row) => {
+              return (
+            <TableRow className={classes.appointmentRow} key={row.name}>
+              <TableCell>{row.clinic_name}</TableCell>
+              <TableCell>{row.clinic_rating}</TableCell>
+              <TableCell>Appointment Clinic</TableCell>
+              <TableCell>{row.avg_wait_days + " Days"}</TableCell>
+              <TableCell>{row.clinic_address}</TableCell>
+              <TableCell>{Math.floor(Math.random() * 9 + 1)}</TableCell>
+              <TableCell><Button component={Link} to={'/main/clinics/' + row.clinic_id}>More Info</Button></TableCell>
+            </TableRow>
+              )
+            })
+          }
+        </React.Fragment>
+      )
+    } else {
+      return (
+        <React.Fragment>
+          {walkInClinics.map((row) => (
+            <TableRow key={row.name}>
+              <TableCell>{row.clinic_name}</TableCell>
+              <TableCell>{row.clinic_rating}</TableCell>
+              <TableCell>Walk-in Clinic</TableCell>
+              <TableCell>{row.avg_wait_time + " Hours"}</TableCell>
+              <TableCell>{row.clinic_address}</TableCell>
+              <TableCell>{Math.floor(Math.random() * 9 + 1)}</TableCell>
+              <TableCell><Button component={Link} to={'/main/clinics/' + row.clinic_id}>More Info</Button></TableCell>
+            </TableRow>
+          ))}
+          {appointmentClinics.map((row) => (
+            <TableRow className={classes.appointmentRow} key={row.name}>
+              <TableCell>{row.clinic_name}</TableCell>
+              <TableCell>{row.clinic_rating}</TableCell>
+              <TableCell>Appointment Clinic</TableCell>
+              <TableCell>{row.avg_wait_days + " Days"}</TableCell>
+              <TableCell>{row.clinic_address}</TableCell>
+              <TableCell>{Math.floor(Math.random() * 9 + 1)}</TableCell>
+              <TableCell><Button component={Link} to={'/main/clinics/' + row.clinic_id}>More Info</Button></TableCell>
+            </TableRow>
+          ))}
+        </React.Fragment>
+      )
+        
+    }
+  }
 
   React.useEffect(() => {
     axios.get('http://localhost:8080/api/appointment_clinics').then((clinics) => {
@@ -128,13 +296,13 @@ export default function Clinics() {
                 <React.Fragment>
                   <Title>Clinics</Title>
                   <div className={classes.seeMore}>
-                    <Button color="primary" >
+                    <Button color="primary" onClick={onSortByRating}>
                       Sort by rating
                     </Button>
-                    <Button color="primary" >
+                    <Button color="primary" onClick={onSortByProximity}>
                       Sort by proximity
                     </Button>
-                    <Button color="primary" >
+                    <Button color="primary" onClick={onSortByWaitTime}>
                       Sort by wait time
                     </Button>
                   </div>
@@ -151,28 +319,7 @@ export default function Clinics() {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                    {walkInClinics.map((row) => (
-                      <TableRow key={row.name}>
-                        <TableCell>{row.clinic_name}</TableCell>
-                        <TableCell>{row.clinic_rating}</TableCell>
-                        <TableCell>Walk-in Clinic</TableCell>
-                        <TableCell>{row.avg_wait_time + " Hours"}</TableCell>
-                        <TableCell>{row.clinic_address}</TableCell>
-                        <TableCell>{Math.floor(Math.random() * 9 + 1)}</TableCell>
-                        <TableCell><Button component={Link} to={'/main/clinics/' + row.clinic_id}>More Info</Button></TableCell>
-                      </TableRow>
-                    ))}
-                    {appointmentClinics.map((row) => (
-                      <TableRow key={row.name}>
-                        <TableCell>{row.clinic_name}</TableCell>
-                        <TableCell>{row.clinic_rating}</TableCell>
-                        <TableCell>Appointment Clinic</TableCell>
-                        <TableCell>{row.avg_wait_days + " Days"}</TableCell>
-                        <TableCell>{row.clinic_address}</TableCell>
-                        <TableCell>{Math.floor(Math.random() * 9 + 1)}</TableCell>
-                        <TableCell><Button component={Link} to={'/main/clinics/' + row.clinic_id}>More Info</Button></TableCell>
-                      </TableRow>
-                    ))}
+                      <List/>
                     </TableBody>
                   </Table>
                 </React.Fragment>
