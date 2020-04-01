@@ -42,8 +42,8 @@ export default function Login(props) {
         if(result.data.length < 1) {
           return;
         } else {
-          props.history.push('/main/dashboard');
           localStorage.setItem('id', result.data[0][0].health_card_no)
+          props.history.push('/main/dashboard');
         }
       })
     }

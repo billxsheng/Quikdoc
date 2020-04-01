@@ -129,6 +129,7 @@ export default function Dashboard() {
   }
 
   React.useEffect(() => {
+    console.log(localStorage.getItem('id'))
     let body = {
       id: localStorage.getItem('id')
     }
