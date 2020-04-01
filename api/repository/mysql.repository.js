@@ -81,7 +81,7 @@ module.exports.getPatientForm = async(id) => {
 /** GET all forms for patient by health card number*/
 module.exports.getAllPatientForms = async() => {
     connection.connect();
-    query =  `select * from patient p inner join patient_form f inner join clinic c on p.health_card_no = f.FK_health_card_no and c.clinic_id = f.FK_clinic_id where p.health_card_no = 84975214;`;
+    query =  `select * from patient p inner join patient_form f inner join clinic c on p.health_card_no = f.FK_health_card_no and c.clinic_id = f.FK_clinic_id where p.health_card_no = 84975214 order by f.patient_form_upload_datetime DESC;`;
     return connection.promise().query(query).then((e) => {
         return e[0]
     })

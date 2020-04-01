@@ -112,7 +112,6 @@ export default function Dashboard() {
   const [wClinic, setWClinic] = useState([]);
   const [aClinic, setAClinic] = useState([]);
   const [formURL, setFormURL] = useState("");
-  console.log(appointment)
   const handleSubmit = (evt) => {
     evt.preventDefault();
     if (formURL) {
@@ -130,6 +129,7 @@ export default function Dashboard() {
   }
 
   React.useEffect(() => {
+    // console.log(JSON.stringify(localStorage.getItem('user')))
     axios.get(`http://localhost:8080/api/appointments`).then((appointment) => {
       setAppointment(appointment.data[0]);
     })
@@ -174,7 +174,8 @@ export default function Dashboard() {
                           />
                           <Button type="submit">Add Form</Button>
                         </form>
-                      </div>                 </React.Fragment>
+                      </div>                 
+                    </React.Fragment>
                     :
                     <Typography component="p" variant="h4" className={classes.depositContext}>
                       No Upcoming Appointments

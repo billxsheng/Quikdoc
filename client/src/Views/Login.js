@@ -32,7 +32,7 @@ export default function Login(props) {
 
   const onFormSubmit = (e) => {
     e.preventDefault();
-    document.getElementById("register-form").reset();
+    document.getElementById("login-form").reset();
     if(hcn && password) {
       let body = {
         hcn,
@@ -43,7 +43,7 @@ export default function Login(props) {
           return;
         } else {
           props.history.push('/main/dashboard');
-          localStorage.setItem('user', result.data[0])
+          // localStorage.setItem('user', result.data[0])
         }
       })
     }

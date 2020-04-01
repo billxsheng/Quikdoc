@@ -105,7 +105,6 @@ export default function Record(props) {
   React.useEffect(() => {
     axios.get(`http://localhost:8080/api/records/${props.match.params.recordID}`).then((record) => {
       setRecord(record.data[0]);
-      console.log(record)
     })
   }, []);
 
